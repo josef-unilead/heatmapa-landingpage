@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npx shadcn@latest init --yes)",
+      "Bash(npx shadcn@latest init)",
+      "Bash(printf '\\\\n\\\\n\\\\n\\\\n\\\\n\\\\n')",
+      "Bash(printf 'Radix\\\\nNova\\\\ndefault\\\\nslate\\\\nyes\\\\n./src/components/ui\\\\n@/\\\\nno\\\\n')",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
