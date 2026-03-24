@@ -1,4 +1,5 @@
 import { Megaphone, Share2, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -69,10 +70,10 @@ export default function JoinTeam() {
               </div>
 
               <Button variant="outline" asChild>
-                <a href="mailto:jobs@heatmapa.com">
+                <Link to="/jobform">
                   Apply Now
                   <ArrowRight className="h-4 w-4" />
-                </a>
+                </Link>
               </Button>
             </Card>
           ))}

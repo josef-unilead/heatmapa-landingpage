@@ -1,4 +1,5 @@
 import { Zap, ArrowDown } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
@@ -31,7 +32,7 @@ export default function Hero() {
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button variant="primary" size="lg" asChild>
-            <a href="#waitlist">Join the Waitlist</a>
+            <Link to="/waitlist">Join the Waitlist</Link>
           </Button>
           <Button variant="outline" size="lg" asChild>
             <a href="#about">Learn More</a>

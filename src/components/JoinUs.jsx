@@ -1,4 +1,5 @@
 import { Store, CalendarDays, Compass } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -55,7 +56,7 @@ export default function JoinUs() {
                 {description}
               </p>
               <Button variant="ghost" asChild>
-                <a href="#waitlist">Get Early Access</a>
+                <Link to="/waitlist">Get Early Access</Link>
               </Button>
             </Card>
           ))}
