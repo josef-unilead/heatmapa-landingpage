@@ -1,66 +1,49 @@
 import { MapPin, Flame, Map, Zap } from "lucide-react";
 import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
+import { useLang } from "../lib/i18n";
 
-const features = [
-  {
-    icon: MapPin,
-    title: "Live Business Map",
-    description:
-      "Browse restaurants, shops, and more — all updated in real time on an interactive map.",
-  },
-  {
-    icon: Flame,
-    title: "Real-Time Events",
-    description:
-      "Concerts, pop-ups, markets — discover events the moment they appear nearby.",
-  },
-  {
-    icon: Map,
-    title: "Heat Zones",
-    description:
-      "See where the crowd is. Activity density visualized so you find the energy fast.",
-  },
-  {
-    icon: Zap,
-    title: "Instant Updates",
-    description:
-      "No refresh needed. The map evolves live as things open, start, and change.",
-  },
+const featureIcons = [MapPin, Flame, Map, Zap];
+const featureKeys = [
+  { title: "feat1Title", desc: "feat1Desc" },
+  { title: "feat2Title", desc: "feat2Desc" },
+  { title: "feat3Title", desc: "feat3Desc" },
+  { title: "feat4Title", desc: "feat4Desc" },
 ];
 
 export default function About() {
+  const { t } = useLang();
   return (
     <section id="about" className="px-6 py-24">
       <div className="mx-auto max-w-4xl">
         <div className="mb-14 text-center">
-          <Badge className="mb-4">About</Badge>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            Your city, alive on a map
+          <h2 className="mb-3 text-xl font-light tracking-wide text-neutral-500 md:text-2xl">
+            {t.aboutTitle1} <span className="font-medium bg-gradient-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.aboutHighlight}</span> {t.aboutTitle2}
           </h2>
-          <p className="mx-auto max-w-lg text-neutral-400">
-            Everything happening around you — hidden gems, buzzing events —
-            all in one living, breathing map.
+          <p className="mx-auto max-w-md text-sm text-neutral-600">
+            {t.aboutSub}
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          {features.map(({ icon: Icon, title, description }) => (
-            <Card
-              key={title}
-              className="group transition-colors hover:border-neutral-700"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
-                <Icon className="h-5 w-5 text-orange-400" />
-              </div>
-              <h3 className="mb-1.5 text-base font-semibold text-white">
-                {title}
-              </h3>
-              <p className="text-sm leading-relaxed text-neutral-400">
-                {description}
-              </p>
-            </Card>
-          ))}
+        <div className="grid gap-3 sm:grid-cols-2">
+          {featureKeys.map(({ title, desc }, i) => {
+            const Icon = featureIcons[i];
+            return (
+              <Card
+                key={title}
+                className="group transition-all hover:border-white/20 hover:bg-white/8"
+              >
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-orange-500/15 bg-orange-500/5 shadow-[0_0_12px_rgba(249,115,22,0.12)]">
+                  <Icon className="h-4 w-4 text-orange-400/70" />
+                </div>
+                <h3 className="mb-1.5 text-sm font-medium text-neutral-300">
+                  {t[title]}
+                </h3>
+                <p className="text-xs leading-relaxed text-neutral-500">
+                  {t[desc]}
+                </p>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>

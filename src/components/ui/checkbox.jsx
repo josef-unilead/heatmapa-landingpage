@@ -7,13 +7,13 @@ export function Checkbox({ className, label, ...props }) {
         <input
           type="checkbox"
           className={cn(
-            "peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-neutral-700 bg-neutral-800 transition-colors checked:border-orange-500/60 checked:bg-orange-500/20 focus:ring-1 focus:ring-orange-500/30 outline-none",
+            "peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/15 bg-white/5 transition-colors checked:border-white/30 checked:bg-white/15 focus:ring-1 focus:ring-white/10 outline-none",
             className
           )}
           {...props}
         />
         <svg
-          className="pointer-events-none absolute h-3 w-3 text-orange-400 opacity-0 peer-checked:opacity-100 transition-opacity"
+          className="pointer-events-none absolute h-3 w-3 text-neutral-300 opacity-0 peer-checked:opacity-100 transition-opacity"
           viewBox="0 0 14 14"
           fill="none"
         >

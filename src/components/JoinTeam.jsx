@@ -2,67 +2,55 @@ import { Megaphone, Share2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { useLang } from "../lib/i18n";
 
-const positions = [
-  {
-    icon: Megaphone,
-    title: "Ambassador",
-    type: "Part-time · Remote",
-    description:
-      "Represent Heatmapa in your city. Connect with local businesses, spread the word at events, and help us grow community by community.",
-    perks: ["Flexible schedule", "Early access", "Commission-based"],
-  },
-  {
-    icon: Share2,
-    title: "Social Media Manager",
-    type: "Part-time · Remote",
-    description:
-      "Own our social presence. Create engaging content, build our audience, and tell the Heatmapa story across Instagram, TikTok, and X.",
-    perks: ["Creative freedom", "Equity options", "Growth role"],
-  },
-];
+const posIcons = [Megaphone, Share2];
 
 export default function JoinTeam() {
+  const { t } = useLang();
+
+  const positions = [
+    { icon: posIcons[0], title: t.pos1Title, type: t.pos1Type, desc: t.pos1Desc, perks: t.pos1Perks },
+    { icon: posIcons[1], title: t.pos2Title, type: t.pos2Type, desc: t.pos2Desc, perks: t.pos2Perks },
+  ];
+
   return (
-    <section id="careers" className="border-t border-neutral-800/60 px-6 py-24">
+    <section id="careers" className="border-t border-white/5 px-6 py-24">
       <div className="mx-auto max-w-4xl">
         <div className="mb-14 text-center">
-          <Badge className="mb-4">We're Hiring</Badge>
-          <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            Join our team
+          <h2 className="mb-3 text-xl font-light tracking-wide text-neutral-500 md:text-2xl">
+            {t.teamTitle1} <span className="font-medium bg-gradient-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.teamHighlight}</span>
           </h2>
-          <p className="mx-auto max-w-lg text-neutral-400">
-            We're a small startup with big ambitions. Join early and help shape
-            how people discover their city.
+          <p className="mx-auto max-w-md text-sm text-neutral-600">
+            {t.teamSub}
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {positions.map(({ icon: Icon, title, type, description, perks }) => (
+        <div className="grid gap-3 md:grid-cols-2">
+          {positions.map(({ icon: Icon, title, type, desc, perks }) => (
             <Card
               key={title}
-              className="flex flex-col transition-colors hover:border-neutral-700"
+              className="flex flex-col transition-all hover:border-white/20 hover:bg-white/8"
             >
               <div className="mb-4 flex items-start justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
-                  <Icon className="h-5 w-5 text-orange-400" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full border border-orange-500/15 bg-orange-500/5 shadow-[0_0_12px_rgba(249,115,22,0.12)]">
+                  <Icon className="h-4 w-4 text-orange-400/70" />
                 </div>
-                <span className="rounded-full bg-neutral-800 px-2.5 py-1 text-xs text-neutral-400">
+                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-neutral-500">
                   {type}
                 </span>
               </div>
 
-              <h3 className="mb-1.5 text-lg font-semibold text-white">{title}</h3>
-              <p className="mb-4 flex-1 text-sm leading-relaxed text-neutral-400">
-                {description}
+              <h3 className="mb-1.5 text-sm font-medium text-neutral-300">{title}</h3>
+              <p className="mb-4 flex-1 text-xs leading-relaxed text-neutral-500">
+                {desc}
               </p>
 
               <div className="mb-5 flex flex-wrap gap-2">
                 {perks.map((perk) => (
                   <span
                     key={perk}
-                    className="rounded-md bg-neutral-800 px-2 py-1 text-xs text-neutral-300"
+                    className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-neutral-400"
                   >
                     {perk}
                   </span>
@@ -71,8 +59,8 @@ export default function JoinTeam() {
 
               <Button variant="outline" asChild>
                 <Link to="/jobform">
-                  Apply Now
-                  <ArrowRight className="h-4 w-4" />
+                  {t.applyCta}
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </Button>
             </Card>
