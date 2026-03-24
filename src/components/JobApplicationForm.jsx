@@ -1,28 +1,71 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CheckCircle, User, Mail, FileText, Briefcase } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useLang } from "../lib/i18n";
+import { supabase } from "../lib/supabase";
+
+const VALID_POSITIONS = ["ambassador", "social-media", "other"];
+
+function sanitize(str, maxLength = 200) {
+  return str.trim().slice(0, maxLength);
+}
 
 export default function JobApplicationForm() {
   const { t } = useLang();
   const [form, setForm] = useState({ name: "", email: "", position: "", message: "", portfolio: "" });
+  const [honeypot, setHoneypot] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const lastSubmit = useRef(0);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name.trim()) { setError(t.jfErrName); return; }
-    if (!form.email.includes("@")) { setError(t.jfErrEmail); return; }
-    if (!form.position.trim()) { setError(t.jfErrPos); return; }
-    if (!form.message.trim()) { setError(t.jfErrMsg); return; }
+
+    // Honeypot
+    if (honeypot) return;
+
+    // Rate limit
+    const now = Date.now();
+    if (now - lastSubmit.current < 10000) {
+      setError(t.jfErrRate || "Počkej chvíli před dalším odesláním.");
+      return;
+    }
+    lastSubmit.current = now;
+
+    const name = sanitize(form.name, 100);
+    const email = sanitize(form.email, 200).toLowerCase();
+    const position = sanitize(form.position, 50);
+    const message = sanitize(form.message, 2000);
+    const portfolio = sanitize(form.portfolio, 500);
+
+    if (!name) { setError(t.jfErrName); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.jfErrEmail); return; }
+    if (!VALID_POSITIONS.includes(position)) { setError(t.jfErrPos); return; }
+    if (!message) { setError(t.jfErrMsg); return; }
 
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
+
+    const { error: dbError } = await supabase.from("job_applications").insert([
+      {
+        name,
+        email,
+        position,
+        message,
+        portfolio: portfolio || null,
+      },
+    ]);
+
     setLoading(false);
+
+    if (dbError) {
+      setError(t.jfErrGeneral || "Něco se pokazilo. Zkus to znovu.");
+      return;
+    }
+
     setSubmitted(true);
   }
 
@@ -43,11 +86,23 @@ export default function JobApplicationForm() {
         ) : (
           <form onSubmit={handleSubmit} className="text-left">
             <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-8">
+              {/* Honeypot */}
+              <input
+                type="text"
+                name="company"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+              />
+
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfName}</label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" />
+                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" maxLength={100} />
                 </div>
               </div>
 
@@ -55,7 +110,7 @@ export default function JobApplicationForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfEmail}</label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" />
+                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" maxLength={200} />
                 </div>
               </div>
 
@@ -82,13 +137,13 @@ export default function JobApplicationForm() {
                 </label>
                 <div className="relative">
                   <FileText className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="url" value={form.portfolio} onChange={(e) => setForm({ ...form, portfolio: e.target.value })} placeholder="https://linkedin.com/in/jan-novak" className="pl-10" />
+                  <Input type="url" value={form.portfolio} onChange={(e) => setForm({ ...form, portfolio: e.target.value })} placeholder="https://linkedin.com/in/jan-novak" className="pl-10" maxLength={500} />
                 </div>
               </div>
 
               <div className="mb-6">
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfAbout}</label>
-                <Textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={t.jfAboutPlaceholder} rows={4} />
+                <Textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={t.jfAboutPlaceholder} rows={4} maxLength={2000} />
               </div>
 
               {error && <p className="mb-4 text-xs text-red-400/80">{error}</p>}

@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CheckCircle, User, Mail, Hash } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { useLang } from "../lib/i18n";
+import { supabase } from "../lib/supabase";
+
+const VALID_ROLES = ["creator", "business", "explorer"];
+
+function sanitize(str, maxLength = 200) {
+  return str.trim().slice(0, maxLength);
+}
 
 export default function WaitlistForm() {
   const { t } = useLang();
   const [form, setForm] = useState({ name: "", email: "", ico: "", roles: [] });
+  const [honeypot, setHoneypot] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const lastSubmit = useRef(0);
 
   const roles = [
     { id: "creator", label: t.wlRole1, description: t.wlRole1Desc },
@@ -29,14 +38,51 @@ export default function WaitlistForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name.trim()) { setError(t.wlErrName); return; }
-    if (!form.email.includes("@")) { setError(t.wlErrEmail); return; }
-    if (form.roles.length === 0) { setError(t.wlErrRole); return; }
+
+    // Honeypot
+    if (honeypot) return;
+
+    // Rate limit
+    const now = Date.now();
+    if (now - lastSubmit.current < 10000) {
+      setError(t.wlErrRate || "Počkej chvíli před dalším odesláním.");
+      return;
+    }
+    lastSubmit.current = now;
+
+    const name = sanitize(form.name, 100);
+    const email = sanitize(form.email, 200).toLowerCase();
+    const ico = sanitize(form.ico, 8);
+    const safeRoles = form.roles.filter((r) => VALID_ROLES.includes(r));
+
+    if (!name) { setError(t.wlErrName); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.wlErrEmail); return; }
+    if (ico && !/^\d{1,8}$/.test(ico)) { setError(t.wlErrIco || "IČO musí obsahovat pouze čísla."); return; }
+    if (safeRoles.length === 0) { setError(t.wlErrRole); return; }
 
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
+
+    const { error: dbError } = await supabase.from("waitlist").insert([
+      {
+        name,
+        email,
+        ico: ico || null,
+        roles: safeRoles,
+      },
+    ]);
+
     setLoading(false);
+
+    if (dbError) {
+      if (dbError.code === "23505") {
+        setError(t.wlErrDuplicate || "Tento e-mail je už na waitlistu.");
+      } else {
+        setError(t.wlErrGeneral || "Něco se pokazilo. Zkus to znovu.");
+      }
+      return;
+    }
+
     setSubmitted(true);
   }
 
@@ -57,6 +103,18 @@ export default function WaitlistForm() {
         ) : (
           <form onSubmit={handleSubmit} className="text-left">
             <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-8">
+              {/* Honeypot */}
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+              />
+
               <div className="mb-6">
                 <label className="mb-3 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.wlWho}</label>
                 <div className="flex flex-col gap-2">
@@ -84,7 +142,7 @@ export default function WaitlistForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.wlName}</label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" />
+                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" maxLength={100} />
                 </div>
               </div>
 
@@ -92,7 +150,7 @@ export default function WaitlistForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.wlEmail}</label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" />
+                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" maxLength={200} />
                 </div>
               </div>
 
@@ -102,7 +160,18 @@ export default function WaitlistForm() {
                 </label>
                 <div className="relative">
                   <Hash className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="text" value={form.ico} onChange={(e) => setForm({ ...form, ico: e.target.value })} placeholder="12345678" className="pl-10" maxLength={8} />
+                  <Input
+                    type="text"
+                    value={form.ico}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "");
+                      setForm({ ...form, ico: val });
+                    }}
+                    placeholder="12345678"
+                    className="pl-10"
+                    maxLength={8}
+                    inputMode="numeric"
+                  />
                 </div>
               </div>
 
