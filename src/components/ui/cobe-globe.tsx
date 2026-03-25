@@ -169,9 +169,7 @@ export function Globe({
       const width = canvas.offsetWidth
       if (width === 0 || globe) return
 
-      const isMobile = width < 400
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2)
-      const samples = isMobile ? 6000 : mapSamples
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
       globe = createGlobe(canvas, {
         devicePixelRatio: dpr,
         width,
@@ -180,7 +178,7 @@ export function Globe({
       theta,
       dark,
       diffuse,
-      mapSamples: samples,
+      mapSamples,
       mapBrightness,
       baseColor,
       markerColor,
