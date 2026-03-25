@@ -244,6 +244,9 @@ export function Globe({
         }}
       />
       {markers.map((m) => {
+        // CSS Anchor Positioning is not supported in Safari/mobile browsers
+        // Hide HTML marker overlays on unsupported browsers
+        if (!CSS.supports?.("position-anchor", "--test")) return null
         const isImage = !!m.image
         const isPerson = m.type === "person"
         const isEvent = m.type === "event"

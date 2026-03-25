@@ -16,13 +16,13 @@ const translations = {
     aboutTitle2: "na mapě",
     aboutSub: "Vše co se děje kolem vás — aktuální eventy, personalizované nabídky podniků a vaši přátelé na jedné mapě.",
     feat1Title: "Podniky v okolí",
-    feat1Desc: "Kavárny, restaurace, noční kluby i večerky — najděte je na mapě a získejte exkluzivní slevy a nabídky dostupné pouze v aplikaci heatmapa.",
+    feat1Desc: "Kavárny, restaurace, kluby i večerky na mapě. Exkluzivní slevy pouze v aplikaci heatmapa.",
     feat2Title: "Události v reálném čase",
-    feat2Desc: "Koncerty, pop-upy, trhy — zapněte si notifikace od aplikace heatmapa a dostávejte upozornění na události ve vašem okolí, přizpůsobené vašim zájmům.",
+    feat2Desc: "Zapněte si notifikace a dostávejte upozornění na události ve vašem okolí přizpůsobené vašim zájmům.",
     feat3Title: "Heat zóny",
-    feat3Desc: "Zjistěte kde to ve městě žije i mimo podniky. Objevujte oblíbená místa, skryté klenoty a lokální hangout spoty v reálném čase.",
+    feat3Desc: "Zjistěte kde to ve městě žije. Objevujte oblíbená místa, skryté klenoty a lokální hangout spoty.",
     feat4Title: "Vaši přátelé",
-    feat4Desc: "Podívejte se na plány vašich přátel, najděte je na mapě a pozvěte přátele přímo v aplikaci na společný sraz do oblíbeného podniku nebo na nejbližší akci ve vašem městě.",
+    feat4Desc: "Sledujte kamarády na mapě a pozvěte je přímo v aplikaci na sraz do oblíbeného podniku nebo na nejbližší akci.",
 
     // JoinUs
     joinTitle1: "Pro koho je",
@@ -30,11 +30,11 @@ const translations = {
     joinTitle2: "?",
     joinSub: "Vlastníte podnik, pořádáte akce, nebo rádi objevujete nová místa ve městě? Vyzkoušejte aplikaci heatmapa zdarma!",
     role1Title: "Majitel podniku",
-    role1Desc: "Buďte objeveni lidmi, kteří hledají podniky poblíž. Využijte placených funkcí k cílené propagaci a oslovte nové zákazníky podle jejich zájmů.",
+    role1Desc: "Buďte objeveni lidmi poblíž. Oslovte nové zákazníky cílenou propagací podle jejich zájmů.",
     role2Title: "Pořadatel akcí",
-    role2Desc: "Zvýrazněte vaši událost na mapě a v reálném čase oslovte uživatele ve vašem okolí. Dejte vědět o akci lidem, kteří se rozhodují právě teď.",
+    role2Desc: "Zvýrazněte událost na mapě a v reálném čase oslovte uživatele, kteří se rozhodují právě teď.",
     role3Title: "Objevovatel",
-    role3Desc: "Najděte nejlepší místa a události ve vašem okolí, sledujte kamarády na mapě a domluvte se na společném programu.",
+    role3Desc: "Najděte nejlepší místa a události v okolí a sledujte kamarády na mapě.",
     joinCta: "Získat early access",
 
     // JoinTeam
