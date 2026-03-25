@@ -2,6 +2,8 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
 }
 
 body {
@@ -9,4 +11,13 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: #0a0a0a;
   color: #e5e5e5;
+}
+
+/* Hide horizontal scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

@@ -1,4 +1,3 @@
-import { ArrowDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Globe } from "./ui/cobe-globe";
@@ -35,14 +34,14 @@ const markers = [
 export default function Hero() {
   const { t } = useLang();
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+    <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-between overflow-hidden px-4 py-6 text-center md:px-6 md:py-8">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-orange-500/8 blur-[120px]" />
+        <div className="absolute left-1/2 top-0 h-150 w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-orange-500/8 blur-[120px]" />
       </div>
 
-      <div className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-4">
-        <div className="relative w-[94%] max-w-[28.8rem] md:max-w-[34.5rem] lg:max-w-[39.4rem]">
+      <div className="relative z-10 flex flex-1 w-full flex-col items-center justify-center gap-2">
+        <div className="relative w-full max-w-[24rem] md:max-w-lg lg:max-w-xl">
           {/* Logo behind the globe */}
           <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-20">
             <img src="/logo.svg" alt="" className="h-48 w-auto md:h-72" />
@@ -60,9 +59,9 @@ export default function Hero() {
         </div>
 
         <div className="text-center">
-          <h1 className="mb-3 text-xl font-light leading-[1.2] tracking-wide text-neutral-500 md:text-3xl">
+          <h1 className="mb-3 text-lg font-light leading-[1.2] tracking-wide text-neutral-500 md:text-3xl">
             {t.heroTitle1}{" "}
-            <span className="font-medium bg-gradient-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">
+            <span className="font-medium bg-linear-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">
               {t.heroHighlight}
             </span>{" "}
             {t.heroTitle2}
@@ -83,12 +82,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <a
-        href="#about"
-        className="absolute bottom-5 left-1/2 -translate-x-1/2 text-neutral-600 transition-colors hover:text-neutral-400"
-      >
-        <ArrowDown className="h-4.5 w-4.5 animate-bounce" />
-      </a>
     </section>
   );
 }

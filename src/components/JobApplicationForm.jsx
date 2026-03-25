@@ -6,7 +6,7 @@ import { Textarea } from "./ui/textarea";
 import { useLang } from "../lib/i18n";
 import { supabase } from "../lib/supabase";
 
-const VALID_POSITIONS = ["ambassador", "social-media", "other"];
+const VALID_POSITIONS = ["ambassador-social-media", "other"];
 
 function sanitize(str, maxLength = 200) {
   return str.trim().slice(0, maxLength);
@@ -70,10 +70,10 @@ export default function JobApplicationForm() {
   }
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-4 py-12 md:px-6 md:py-24">
       <div className="mx-auto max-w-lg text-center">
         <h2 className="mb-3 text-xl font-light tracking-wide text-neutral-500 md:text-2xl">
-          {t.jfTitle1} <span className="font-medium bg-gradient-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.jfHighlight}</span>
+          {t.jfTitle1} <span className="font-medium bg-linear-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.jfHighlight}</span>
         </h2>
         <p className="mb-8 text-sm text-neutral-600">{t.jfSub}</p>
 
@@ -124,8 +124,7 @@ export default function JobApplicationForm() {
                     className="w-full cursor-pointer appearance-none rounded-full border border-white/10 bg-white/5 backdrop-blur-md py-2.5 pl-10 pr-4 text-sm text-white outline-none transition-colors focus:border-white/25 focus:ring-1 focus:ring-white/10"
                   >
                     <option value="" disabled>{t.jfPositionPlaceholder}</option>
-                    <option value="ambassador">{t.jfPosAmbassador}</option>
-                    <option value="social-media">{t.jfPosSocial}</option>
+                    <option value="ambassador-social-media">{t.jfPosAmbassador}</option>
                     <option value="other">{t.jfPosOther}</option>
                   </select>
                 </div>

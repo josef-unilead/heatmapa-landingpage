@@ -87,10 +87,10 @@ export default function WaitlistForm() {
   }
 
   return (
-    <section className="relative overflow-hidden px-6 py-24">
+    <section className="relative overflow-hidden px-4 py-12 md:px-6 md:py-24">
       <div className="relative z-10 mx-auto max-w-lg text-center">
         <h2 className="mb-3 text-xl font-light tracking-wide text-neutral-500 md:text-2xl">
-          {t.wlTitle1} <span className="font-medium bg-gradient-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.wlHighlight}</span>
+          {t.wlTitle1} <span className="font-medium bg-linear-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.wlHighlight}</span>
         </h2>
         <p className="mb-8 text-sm text-neutral-600">{t.wlSub}</p>
 
