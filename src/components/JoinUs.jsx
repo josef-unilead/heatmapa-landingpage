@@ -14,7 +14,7 @@ const roleKeys = [
 export default function JoinUs() {
   const { t } = useLang();
   return (
-    <section id="join" className="flex h-screen snap-start snap-always items-center px-4 md:px-6">
+    <section id="join" className="flex h-screen snap-start snap-always items-center overflow-hidden px-4 md:px-6">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6 text-center md:mb-16">
           <h2 className="mb-2 text-xl font-light tracking-wide text-neutral-500 md:mb-4 md:text-3xl">
