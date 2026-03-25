@@ -304,6 +304,7 @@ export function Globe({
           touchAction: "none",
         }}
       />
+      <div className="hidden md:contents">
       {markers.map((m) => {
         const isImage = !!m.image
         const isPerson = m.type === "person"
@@ -450,6 +451,7 @@ export function Globe({
           </div>
         )
       })}
+      </div>
     </div>
   )
 }

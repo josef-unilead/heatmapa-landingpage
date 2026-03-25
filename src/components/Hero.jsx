@@ -34,17 +34,17 @@ const markers = [
 export default function Hero() {
   const { t } = useLang();
   return (
-    <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-between overflow-hidden px-4 py-6 text-center md:px-6 md:py-8">
+    <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden px-4 pb-10 text-center md:px-6 md:pb-12">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-0 h-150 w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-orange-500/8 blur-[120px]" />
       </div>
 
-      <div className="relative z-10 flex flex-1 w-full flex-col items-center justify-center gap-2">
-        <div className="relative w-full max-w-[24rem] md:max-w-lg lg:max-w-xl">
+      <div className="relative z-10 flex w-full flex-col items-center gap-2">
+        <div className="relative w-full max-w-[16rem] md:max-w-lg lg:max-w-xl">
           {/* Logo behind the globe */}
           <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-20">
-            <img src="/logo.svg" alt="" className="h-48 w-auto md:h-72" />
+            <img src="/logo.svg" alt="" className="h-32 w-auto md:h-72" />
           </div>
           <Globe
             markers={markers}
@@ -59,7 +59,7 @@ export default function Hero() {
         </div>
 
         <div className="text-center">
-          <h1 className="mb-3 text-lg font-light leading-[1.2] tracking-wide text-neutral-500 md:text-3xl">
+          <h1 className="mb-2 text-lg font-light leading-[1.2] tracking-wide text-neutral-500 md:mb-3 md:text-3xl">
             {t.heroTitle1}{" "}
             <span className="font-medium bg-linear-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">
               {t.heroHighlight}
@@ -67,7 +67,7 @@ export default function Hero() {
             {t.heroTitle2}
           </h1>
 
-          <p className="mx-auto mb-6 max-w-sm text-xs leading-relaxed tracking-wide text-neutral-600">
+          <p className="mx-auto mb-4 max-w-sm text-xs leading-relaxed tracking-wide text-neutral-600 md:mb-6">
             {t.heroSub}
           </p>
 
