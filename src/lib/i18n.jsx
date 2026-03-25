@@ -40,7 +40,7 @@ const translations = {
     // JoinTeam
     teamTitle1: "Přidejte se k",
     teamHighlight: "týmu",
-    teamSub: "Jsme malý startup s velkými ambicemi. Přidejte se brzy a pomozte formovat, jak lidé objevují své město.",
+    teamSub: "Jsme český startup s velkými ambicemi. Přidejte se k nám a pomozte změnit způsob, jakým lidé objevují města.",
     posTitle: "Ambasador & Social Media Manager",
     posType: "Part-time · Remote",
     posDesc: "Reprezentujte Heatmapu ve svém městě a na sociálních sítích. Spojte se s místními podniky, tvořte obsah, šiřte slovo na akcích a pomozte nám růst komunitu po komunitě.",

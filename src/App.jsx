@@ -8,10 +8,12 @@ import JobApplicationForm from "./components/JobApplicationForm";
 import FormPageLayout from "./components/FormPageLayout";
 import LangSwitcher from "./components/LangSwitcher";
 import LogoSection from "./components/LogoSection";
+import HeatBlobs from "./components/HeatBlobs";
 function LandingPage() {
   return (
     <>
       <Hero />
+      <HeatBlobs />
       <About />
       <JoinUs />
       <JoinTeam />
