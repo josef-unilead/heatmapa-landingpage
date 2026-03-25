@@ -67,7 +67,7 @@ export default function LogoSection() {
   const separator = <span className="mx-3 text-orange-500/20 font-mono md:mx-5">//</span>;
 
   return (
-    <section className="relative flex h-dvh w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
+    <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
       {/* Flickering background grid */}
       <FlickeringGrid
         className="absolute inset-0 z-0 mask-[radial-gradient(350px_circle_at_center,white,transparent)] md:mask-[radial-gradient(700px_circle_at_center,white,transparent)]"

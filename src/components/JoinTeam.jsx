@@ -8,7 +8,7 @@ export default function JoinTeam() {
   const { t } = useLang();
 
   return (
-    <section id="careers" className="flex h-dvh snap-start snap-always items-center px-4 md:px-6">
+    <section id="careers" className="flex h-screen snap-start snap-always items-center px-4 md:px-6">
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-6 text-center md:mb-16">
           <h2 className="mb-2 text-xl font-light tracking-wide text-neutral-500 md:mb-4 md:text-3xl">
