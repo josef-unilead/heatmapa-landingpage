@@ -40,6 +40,37 @@ interface GlobeProps {
   mapSamples?: number
 }
 
+function projectMarker(
+  lat: number,
+  lng: number,
+  currentPhi: number,
+  currentTheta: number,
+  containerSize: number
+) {
+  const latRad = (lat * Math.PI) / 180
+  const lngRad = (lng * Math.PI) / 180
+
+  // Spherical to cartesian
+  const sx = Math.cos(latRad) * Math.sin(lngRad)
+  const sy = -Math.sin(latRad)
+  const sz = Math.cos(latRad) * Math.cos(lngRad)
+
+  // Rotate by phi (Y-axis)
+  const rx = sx * Math.cos(currentPhi) + sz * Math.sin(currentPhi)
+  const rz = -sx * Math.sin(currentPhi) + sz * Math.cos(currentPhi)
+
+  // Rotate by theta (X-axis)
+  const ry = sy * Math.cos(currentTheta) - rz * Math.sin(currentTheta)
+  const fz = sy * Math.sin(currentTheta) + rz * Math.cos(currentTheta)
+
+  const radius = containerSize / 2
+  return {
+    x: radius + rx * radius,
+    y: radius + ry * radius,
+    visible: fz > 0,
+  }
+}
+
 export function Globe({
   markers = [],
   arcs = [],
@@ -67,6 +98,11 @@ export function Globe({
   const phiOffsetRef = useRef(0)
   const thetaOffsetRef = useRef(0)
   const isPausedRef = useRef(false)
+  const markerElsRef = useRef<Record<string, HTMLDivElement | null>>({})
+
+  const [supportsAnchor] = useState(
+    () => typeof CSS !== "undefined" && !!CSS.supports?.("position-anchor", "--test")
+  )
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
@@ -184,9 +220,13 @@ export function Globe({
           thetaOffsetRef.current += (thetaMax - thetaOffsetRef.current) * 0.1
         }
       }
+
+      const currentPhi = phi + phiOffsetRef.current + dragOffset.current.phi
+      const currentTheta = theta + thetaOffsetRef.current + dragOffset.current.theta
+
       globe!.update({
-        phi: phi + phiOffsetRef.current + dragOffset.current.phi,
-        theta: theta + thetaOffsetRef.current + dragOffset.current.theta,
+        phi: currentPhi,
+        theta: currentTheta,
         dark,
         mapBrightness,
         markerColor,
@@ -204,6 +244,27 @@ export function Globe({
           id: a.id,
         })),
       })
+
+      // JS fallback: position markers manually when CSS Anchor Positioning is not supported
+      if (!supportsAnchor) {
+        const size = canvas.offsetWidth
+        markers.forEach((m) => {
+          const el = markerElsRef.current[m.id]
+          if (!el) return
+          const pos = projectMarker(
+            m.location[0],
+            m.location[1],
+            currentPhi,
+            currentTheta,
+            size
+          )
+          el.style.left = `${pos.x}px`
+          el.style.top = `${pos.y}px`
+          el.style.opacity = pos.visible ? "1" : "0"
+          el.style.filter = pos.visible ? "none" : "blur(8px)"
+        })
+      }
+
       animationId = requestAnimationFrame(animate)
     }
       animate()
@@ -226,7 +287,7 @@ export function Globe({
       if (animationId) cancelAnimationFrame(animationId)
       if (globe) globe.destroy()
     }
-  }, [markers, arcs, markerColor, baseColor, arcColor, glowColor, dark, mapBrightness, markerSize, markerElevation, arcWidth, arcHeight, speed, theta, diffuse, mapSamples])
+  }, [markers, arcs, markerColor, baseColor, arcColor, glowColor, dark, mapBrightness, markerSize, markerElevation, arcWidth, arcHeight, speed, theta, diffuse, mapSamples, supportsAnchor])
 
   return (
     <div className={`relative aspect-square select-none ${className}`}>
@@ -244,18 +305,14 @@ export function Globe({
         }}
       />
       {markers.map((m) => {
-        // CSS Anchor Positioning is not supported in Safari/mobile browsers
-        // Hide HTML marker overlays on unsupported browsers
-        if (!CSS.supports?.("position-anchor", "--test")) return null
         const isImage = !!m.image
         const isPerson = m.type === "person"
         const isEvent = m.type === "event"
         const isBusiness = m.type === "business"
 
-        return (
-          <div
-            key={m.id}
-            style={{
+        // Anchor-based styles (Chrome 125+)
+        const anchorStyle: React.CSSProperties = supportsAnchor
+          ? {
               position: "absolute",
               // @ts-expect-error CSS Anchor Positioning
               positionAnchor: `--cobe-${m.id}`,
@@ -267,7 +324,23 @@ export function Globe({
               opacity: `var(--cobe-visible-${m.id}, 0)`,
               filter: `blur(calc((1 - var(--cobe-visible-${m.id}, 0)) * 8px))`,
               transition: "opacity 0.8s, filter 0.8s",
+            }
+          : {
+              // JS fallback styles — positioned via animation loop
+              position: "absolute" as const,
+              transform: "translate(-50%, -100%)",
+              pointerEvents: "none" as const,
+              opacity: 0,
+              transition: "opacity 0.3s, filter 0.3s",
+            }
+
+        return (
+          <div
+            key={m.id}
+            ref={(el) => {
+              markerElsRef.current[m.id] = el
             }}
+            style={anchorStyle}
           >
             {isBusiness ? (
               <div style={{
