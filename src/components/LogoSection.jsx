@@ -70,7 +70,7 @@ export default function LogoSection() {
     <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
       {/* Flickering background grid */}
       <FlickeringGrid
-        className="absolute inset-0 z-0 blur-[3px] mask-[linear-gradient(to_bottom,transparent,white_40%)]"
+        className="absolute inset-0 z-0 mask-[linear-gradient(to_bottom,transparent,white_40%)]"
         {...GRID_CONFIG.background}
       />
 
