@@ -70,7 +70,7 @@ export default function LogoSection() {
     <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
       {/* Flickering background grid */}
       <FlickeringGrid
-        className="absolute inset-0 z-0 mask-[radial-gradient(350px_circle_at_center,white,transparent)] md:mask-[radial-gradient(700px_circle_at_center,white,transparent)]"
+        className="absolute inset-0 z-0 mask-[radial-gradient(450px_circle_at_center,white,transparent)] md:mask-[radial-gradient(900px_circle_at_center,white,transparent)]"
         {...GRID_CONFIG.background}
       />
 
@@ -141,11 +141,11 @@ export default function LogoSection() {
         </p>
       </div>
 
-      {/* Edge fades — top is tall and soft to blend with JoinTeam section */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-48 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
+      {/* Edge fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-64 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-24 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-24 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-24 bg-gradient-to-l from-[#0a0a0a]/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-32 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-32 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
     </section>
   );
 }

@@ -10,7 +10,7 @@ export default function JoinTeam() {
   return (
     <section id="careers" className="relative flex h-screen snap-start snap-always items-center px-4 md:px-6">
       {/* Bottom fade to blend into LogoSection */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-56 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-6 text-center md:mb-16">
           <h2 className="mb-2 text-xl font-light tracking-wide text-neutral-500 md:mb-4 md:text-3xl">
