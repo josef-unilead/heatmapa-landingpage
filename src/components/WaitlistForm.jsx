@@ -179,12 +179,21 @@ export default function WaitlistForm() {
 
               <div className="mb-6">
                 <label className="flex cursor-pointer items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={form.gdpr}
-                    onChange={(e) => setForm({ ...form, gdpr: e.target.checked })}
-                    className="h-4 w-4 cursor-pointer appearance-none rounded border border-white/15 bg-white/5 transition-colors checked:border-white/30 checked:bg-white/15 focus:ring-1 focus:ring-white/10 outline-none"
-                  />
+                  <div className="relative flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={form.gdpr}
+                      onChange={(e) => setForm({ ...form, gdpr: e.target.checked })}
+                      className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/15 bg-white/5 transition-all checked:border-orange-500/50 checked:bg-orange-500/20 outline-none"
+                    />
+                    <svg
+                      className="pointer-events-none absolute h-3 w-3 text-orange-400 opacity-0 peer-checked:opacity-100 transition-opacity"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                    >
+                      <path d="M11.5 4L5.5 10L2.5 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
                   <span className="text-xs text-neutral-500">
                     {t.gdprConsent}{" "}
                     <Link to="/privacy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
