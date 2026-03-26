@@ -13,6 +13,11 @@ const maskStyle = {
   maskRepeat: "no-repeat",
 };
 
+const gridFadeStyle = {
+  WebkitMaskImage: "linear-gradient(to bottom, transparent, white 40%)",
+  maskImage: "linear-gradient(to bottom, transparent, white 40%)",
+};
+
 const GRID_CONFIG = {
   background: {
     color: "#F97316",
@@ -70,7 +75,8 @@ export default function LogoSection() {
     <section className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
       {/* Flickering background grid */}
       <FlickeringGrid
-        className="absolute inset-0 z-0 mask-[linear-gradient(to_bottom,transparent,white_40%)]"
+        className="absolute inset-0 z-0"
+        style={gridFadeStyle}
         {...GRID_CONFIG.background}
       />
 
