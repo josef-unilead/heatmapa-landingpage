@@ -8,7 +8,9 @@ export default function JoinTeam() {
   const { t } = useLang();
 
   return (
-    <section id="careers" className="flex h-screen snap-start snap-always items-center px-4 md:px-6">
+    <section id="careers" className="relative flex h-screen snap-start snap-always items-center px-4 md:px-6">
+      {/* Bottom fade to blend into LogoSection */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-6 text-center md:mb-16">
           <h2 className="mb-2 text-xl font-light tracking-wide text-neutral-500 md:mb-4 md:text-3xl">

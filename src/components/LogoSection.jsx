@@ -141,8 +141,8 @@ export default function LogoSection() {
         </p>
       </div>
 
-      {/* Edge fades — top is softer to blend with heat blobs */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-40 bg-gradient-to-b from-[#0a0a0a]/80 to-transparent" />
+      {/* Edge fades — top is tall and soft to blend with JoinTeam section */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-48 bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-24 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-24 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-24 bg-gradient-to-l from-[#0a0a0a]/80 to-transparent" />
