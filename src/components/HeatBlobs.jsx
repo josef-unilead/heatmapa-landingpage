@@ -5,7 +5,7 @@ const blobs = [
     color: "bg-orange-500",
     opacity: 0.12,
     animation: "heat-drift-1",
-    blur: "blur-[80px] md:blur-[120px]",
+    blur: "blur-[120px] md:blur-[200px]",
   },
   {
     size: "w-[350px] h-[350px] md:w-[600px] md:h-[600px]",
@@ -13,7 +13,7 @@ const blobs = [
     color: "bg-red-500",
     opacity: 0.08,
     animation: "heat-drift-2",
-    blur: "blur-[90px] md:blur-[130px]",
+    blur: "blur-[130px] md:blur-[220px]",
   },
   {
     size: "w-[300px] h-[300px] md:w-[550px] md:h-[550px]",
@@ -21,7 +21,7 @@ const blobs = [
     color: "bg-amber-500",
     opacity: 0.1,
     animation: "heat-drift-3",
-    blur: "blur-[70px] md:blur-[110px]",
+    blur: "blur-[110px] md:blur-[200px]",
   },
   {
     size: "w-[250px] h-[250px] md:w-[450px] md:h-[450px]",
@@ -29,7 +29,7 @@ const blobs = [
     color: "bg-orange-600",
     opacity: 0.07,
     animation: "heat-drift-4",
-    blur: "blur-[100px] md:blur-[140px]",
+    blur: "blur-[140px] md:blur-[240px]",
   },
   {
     size: "w-[280px] h-[280px] md:w-[500px] md:h-[500px]",
@@ -37,7 +37,7 @@ const blobs = [
     color: "bg-red-600",
     opacity: 0.09,
     animation: "heat-drift-5",
-    blur: "blur-[80px] md:blur-[120px]",
+    blur: "blur-[120px] md:blur-[200px]",
   },
   {
     size: "w-[200px] h-[200px] md:w-[350px] md:h-[350px]",
@@ -45,7 +45,7 @@ const blobs = [
     color: "bg-orange-400",
     opacity: 0.06,
     animation: "heat-drift-6",
-    blur: "blur-[60px] md:blur-[100px]",
+    blur: "blur-[100px] md:blur-[180px]",
   },
   {
     size: "w-[320px] h-[320px] md:w-[500px] md:h-[500px]",
@@ -53,7 +53,7 @@ const blobs = [
     color: "bg-amber-600",
     opacity: 0.1,
     animation: "heat-drift-2",
-    blur: "blur-[90px] md:blur-[120px]",
+    blur: "blur-[130px] md:blur-[200px]",
   },
 ];
 
