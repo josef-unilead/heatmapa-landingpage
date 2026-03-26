@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { CheckCircle, User, Mail, FileText, Briefcase } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -14,7 +15,7 @@ function sanitize(str, maxLength = 200) {
 
 export default function JobApplicationForm() {
   const { t } = useLang();
-  const [form, setForm] = useState({ name: "", email: "", position: "", message: "", portfolio: "" });
+  const [form, setForm] = useState({ name: "", email: "", position: "", message: "", portfolio: "", gdpr: false });
   const [honeypot, setHoneypot] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -45,6 +46,7 @@ export default function JobApplicationForm() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.jfErrEmail); return; }
     if (!VALID_POSITIONS.includes(position)) { setError(t.jfErrPos); return; }
     if (!message) { setError(t.jfErrMsg); return; }
+    if (!form.gdpr) { setError(t.gdprError); return; }
 
     setError("");
     setLoading(true);
@@ -143,6 +145,23 @@ export default function JobApplicationForm() {
               <div className="mb-6">
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfAbout}</label>
                 <Textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={t.jfAboutPlaceholder} rows={4} maxLength={2000} />
+              </div>
+
+              <div className="mb-6">
+                <label className="flex cursor-pointer items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={form.gdpr}
+                    onChange={(e) => setForm({ ...form, gdpr: e.target.checked })}
+                    className="h-4 w-4 cursor-pointer appearance-none rounded border border-white/15 bg-white/5 transition-colors checked:border-white/30 checked:bg-white/15 focus:ring-1 focus:ring-white/10 outline-none"
+                  />
+                  <span className="text-xs text-neutral-500">
+                    {t.gdprConsent}{" "}
+                    <Link to="/privacy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
+                      {t.gdprLink}
+                    </Link>
+                  </span>
+                </label>
               </div>
 
               {error && <p className="mb-4 text-xs text-red-400/80">{error}</p>}

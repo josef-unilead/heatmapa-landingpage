@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { CheckCircle, User, Mail, Hash } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
@@ -14,7 +15,7 @@ function sanitize(str, maxLength = 200) {
 
 export default function WaitlistForm() {
   const { t } = useLang();
-  const [form, setForm] = useState({ name: "", email: "", ico: "", roles: [] });
+  const [form, setForm] = useState({ name: "", email: "", ico: "", roles: [], gdpr: false });
   const [honeypot, setHoneypot] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -59,6 +60,7 @@ export default function WaitlistForm() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.wlErrEmail); return; }
     if (ico && !/^\d{1,8}$/.test(ico)) { setError(t.wlErrIco || "IČO musí obsahovat pouze čísla."); return; }
     if (safeRoles.length === 0) { setError(t.wlErrRole); return; }
+    if (!form.gdpr) { setError(t.gdprError); return; }
 
     setError("");
     setLoading(true);
@@ -173,6 +175,23 @@ export default function WaitlistForm() {
                     inputMode="numeric"
                   />
                 </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="flex cursor-pointer items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={form.gdpr}
+                    onChange={(e) => setForm({ ...form, gdpr: e.target.checked })}
+                    className="h-4 w-4 cursor-pointer appearance-none rounded border border-white/15 bg-white/5 transition-colors checked:border-white/30 checked:bg-white/15 focus:ring-1 focus:ring-white/10 outline-none"
+                  />
+                  <span className="text-xs text-neutral-500">
+                    {t.gdprConsent}{" "}
+                    <Link to="/privacy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
+                      {t.gdprLink}
+                    </Link>
+                  </span>
+                </label>
               </div>
 
               {error && <p className="mb-4 text-xs text-red-400/80">{error}</p>}

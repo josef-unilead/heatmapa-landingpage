@@ -6,6 +6,7 @@ import JoinTeam from "./components/JoinTeam";
 import WaitlistForm from "./components/WaitlistForm";
 import JobApplicationForm from "./components/JobApplicationForm";
 import FormPageLayout from "./components/FormPageLayout";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 import LangSwitcher from "./components/LangSwitcher";
 import LogoSection from "./components/LogoSection";
 import HeatBlobs from "./components/HeatBlobs";
@@ -41,6 +42,14 @@ export default function App() {
           element={
             <FormPageLayout>
               <JobApplicationForm />
+            </FormPageLayout>
+          }
+        />
+        <Route
+          path="/privacy"
+          element={
+            <FormPageLayout>
+              <PrivacyPolicy />
             </FormPageLayout>
           }
         />

@@ -115,6 +115,29 @@ const translations = {
     mq9: "Město",
     mq10: "Zážitky",
 
+    // GDPR
+    gdprConsent: "Souhlasím se",
+    gdprLink: "zpracováním osobních údajů",
+    gdprError: "Pro odeslání musíte souhlasit se zpracováním osobních údajů.",
+
+    // Privacy Policy
+    privacyTitle: "Zásady zpracování osobních údajů",
+    priv1Title: "1. Správce osobních údajů",
+    priv1Text: "Správcem osobních údajů je společnost heatmapa s.r.o., IČO: 244 19 010 (dále jen „Správce"). S dotazy ohledně zpracování osobních údajů se na nás můžete obrátit na e-mailu info@heatmapa.cz.",
+    priv2Title: "2. Jaké údaje zpracováváme",
+    priv2Text: "Zpracováváme údaje, které nám dobrovolně poskytnete prostřednictvím formulářů na těchto stránkách: jméno, e-mailovou adresu, IČO (volitelně), zvolenou roli/pozici, portfolio odkaz a zprávu o sobě. Tyto údaje jsou nezbytné pro zařazení na waitlist nebo zpracování pracovní přihlášky.",
+    priv3Title: "3. Účel zpracování",
+    priv3Text: "Vaše údaje zpracováváme za účelem: (a) zařazení na waitlist a informování o spuštění služby heatmapa, (b) zpracování pracovních přihlášek a kontaktování uchazečů, (c) komunikace související s těmito účely.",
+    priv4Title: "4. Právní základ zpracování",
+    priv4Text: "Osobní údaje zpracováváme na základě vašeho souhlasu, který udělujete zaškrtnutím příslušného pole ve formuláři. Tento souhlas můžete kdykoli odvolat zasláním e-mailu na info@heatmapa.cz.",
+    priv5Title: "5. Doba zpracování",
+    priv5Text: "Údaje z waitlistu uchováváme po dobu trvání waitlistu a následně maximálně 12 měsíců po spuštění služby. Údaje z pracovních přihlášek uchováváme po dobu výběrového řízení a následně maximálně 6 měsíců pro případné budoucí nabídky, pokud s tím vyjádříte souhlas.",
+    priv6Title: "6. Vaše práva",
+    priv6Text: "Máte právo na přístup ke svým údajům, jejich opravu, výmaz, omezení zpracování, přenositelnost údajů a právo vznést námitku proti zpracování. Máte také právo podat stížnost u Úřadu pro ochranu osobních údajů (www.uoou.cz).",
+    priv7Title: "7. Zabezpečení údajů",
+    priv7Text: "Vaše údaje jsou uloženy v zabezpečené databázi s šifrovaným přenosem dat. Přístup k údajům mají pouze oprávněné osoby Správce. Údaje nepředáváme třetím stranám s výjimkou poskytovatelů technické infrastruktury nezbytné pro provoz služby.",
+    privLastUpdate: "Poslední aktualizace: březen 2026",
+
     // Layout
     back: "Zpět",
     footer: "heatmapa s.r.o. Všechna práva vyhrazena.",
@@ -232,6 +255,29 @@ const translations = {
     mq8: "Connection",
     mq9: "City",
     mq10: "Experiences",
+
+    // GDPR
+    gdprConsent: "I agree to the",
+    gdprLink: "processing of personal data",
+    gdprError: "You must agree to the processing of personal data to submit.",
+
+    // Privacy Policy
+    privacyTitle: "Privacy Policy",
+    priv1Title: "1. Data Controller",
+    priv1Text: "The data controller is heatmapa s.r.o., Company ID: 244 19 010 (hereinafter \"Controller\"). For questions regarding the processing of personal data, please contact us at info@heatmapa.cz.",
+    priv2Title: "2. What Data We Process",
+    priv2Text: "We process the data you voluntarily provide through the forms on this website: name, email address, Company ID (optional), selected role/position, portfolio link, and a message about yourself. This data is necessary for waitlist enrollment or processing job applications.",
+    priv3Title: "3. Purpose of Processing",
+    priv3Text: "We process your data for the purposes of: (a) enrolling you on the waitlist and informing you about the launch of the heatmapa service, (b) processing job applications and contacting applicants, (c) communication related to these purposes.",
+    priv4Title: "4. Legal Basis",
+    priv4Text: "We process personal data based on your consent, which you grant by checking the relevant box in the form. You may withdraw this consent at any time by sending an email to info@heatmapa.cz.",
+    priv5Title: "5. Data Retention Period",
+    priv5Text: "Waitlist data is retained for the duration of the waitlist and for a maximum of 12 months after the service launch. Job application data is retained for the duration of the recruitment process and for a maximum of 6 months for potential future offers, if you consent.",
+    priv6Title: "6. Your Rights",
+    priv6Text: "You have the right to access, rectify, erase, restrict processing, data portability, and the right to object to processing. You also have the right to lodge a complaint with the Office for Personal Data Protection (www.uoou.cz).",
+    priv7Title: "7. Data Security",
+    priv7Text: "Your data is stored in a secure database with encrypted data transfer. Only authorized personnel of the Controller have access. We do not share data with third parties except for technical infrastructure providers necessary for service operation.",
+    privLastUpdate: "Last updated: March 2026",
 
     // Layout
     back: "Back",
