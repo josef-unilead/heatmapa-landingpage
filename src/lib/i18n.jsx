@@ -3,12 +3,10 @@ import { createContext, useContext, useState } from "react";
 const translations = {
   cs: {
     // Hero
-    heroTitle1: "Objevte co se",
-    heroHighlight: "děje",
-    heroTitle2: "kolem vás",
-    heroSub: "Místní podniky a události v reálném čase na živé mapě.",
     heroWaitlist: "Připojit se na waitlist",
-    heroLearn: "Zjistit více",
+    heroLearn: "Partnerství",
+    heroUpcoming: "Připravujeme",
+    eventViewButton: "Zobrazit",
 
     // About
     aboutTitle1: "Vaše město,",
@@ -19,15 +17,14 @@ const translations = {
     feat1Desc: "Kavárny, restaurace, kluby i večerky na mapě. Exkluzivní slevy pouze v aplikaci heatmapa.",
     feat2Title: "Události v reálném čase",
     feat2Desc: "Zapněte si notifikace a dostávejte upozornění na události ve vašem okolí přizpůsobené vašim zájmům.",
-    feat3Title: "Heat zóny",
-    feat3Desc: "Zjistěte kde to ve městě žije. Objevujte oblíbená místa, skryté klenoty a lokální hangout spoty.",
+    feat3Title: "Personalizované notifikace",
+    feat3Desc: "Notifikace vám chodí přímo od podniků a pořadatelů, takže o nových akcích a slevách ve svém okolí víte první.",
     feat4Title: "Vaši přátelé",
     feat4Desc: "Sledujte kamarády na mapě a pozvěte je přímo v aplikaci na sraz do oblíbeného podniku nebo na nejbližší akci.",
 
     // JoinUs
     joinTitle1: "Pro koho je",
-    joinHighlight: "Heatmapa",
-    joinTitle2: "?",
+    joinHighlight: "Heatmapa?",
     joinSub: "Vlastníte podnik, pořádáte akce, nebo rádi objevujete nová místa ve městě? Vyzkoušejte aplikaci heatmapa zdarma!",
     role1Title: "Majitel podniku",
     role1Desc: "Buďte objeveni lidmi poblíž. Oslovte nové zákazníky cílenou propagací podle jejich zájmů.",
@@ -37,15 +34,15 @@ const translations = {
     role3Desc: "Najděte nejlepší místa a události v okolí a sledujte kamarády na mapě.",
     joinCta: "Získat early access",
 
-    // JoinTeam
-    teamTitle1: "Přidejte se k",
-    teamHighlight: "týmu",
-    teamSub: "Jsme český startup s velkými ambicemi. Přidejte se k nám a pomozte změnit způsob, jakým lidé objevují města.",
-    posTitle: "Ambasador & Social Media Manager",
-    posType: "Part-time · Remote",
-    posDesc: "Reprezentujte Heatmapu ve svém městě a na sociálních sítích. Spojte se s místními podniky, tvořte obsah, šiřte slovo na akcích a pomozte nám růst komunitu po komunitě.",
-    posPerks: ["Flexibilní rozvrh", "Early access"],
-    applyCta: "Přihlásit se",
+    // JoinTeam (Partner)
+    teamTitle1: "Staňte se naším",
+    teamHighlight: "partnerem!",
+    teamSub: "Spojte svou značku s mladými, kteří v reálném čase rozhodují, kam ve městě vyrazí a co vyzkouší. Buďte tam, kde se právě teď něco děje.",
+    posTitle: "Zviditelněte s námi vaši značku",
+    partnerOffer: "Pilot zdarma",
+    posDesc: "Hledáme značky, které chtějí být u toho, co se ve městě právě teď děje. Nabízíme dlouhodobou spolupráci postavenou na společném růstu — propojíme vaši značku s mladými lidmi, kteří se v reálném čase rozhodují, kam vyrazí a co zkusí.",
+    posPerks: ["Brand badge u partnerských akcí a podniků", "Kategoriální exkluzivita", "Platforma pro partnerské podniky"],
+    applyCta: "Mám zájem o spolupráci",
 
     // Waitlist Form
     wlTitle1: "Buď první",
@@ -66,7 +63,6 @@ const translations = {
     wlSubmitting: "Odesílám...",
     wlSuccess: "Jsi na seznamu!",
     wlSuccessDesc: "Ozveme se ti, jakmile spustíme early access.",
-    wlSpam: "Žádný spam. Odhlásit se můžeš kdykoliv.",
     wlErrName: "Vyplňte prosím jméno.",
     wlErrEmail: "Zadejte platný e-mail.",
     wlErrIco: "IČO musí obsahovat pouze čísla.",
@@ -75,45 +71,29 @@ const translations = {
     wlErrDuplicate: "Tento e-mail je už na waitlistu.",
     wlErrGeneral: "Něco se pokazilo. Zkuste to znovu.",
 
-    // Job Form
-    jfTitle1: "Pošli nám",
-    jfHighlight: "přihlášku",
-    jfSub: "Zaujala tě některá z pozic? Vyplň formulář a my se ti ozveme.",
-    jfName: "Jméno",
+    // Partner Inquiry Form
+    jfTitle1: "Mám zájem o",
+    jfHighlight: "spolupráci",
+    jfSub: "Stačí pár řádků o vaší značce. Ozveme se vám s konkrétními možnostmi spolupráce.",
+    jfName: "Kontaktní osoba",
     jfEmail: "E-mail",
-    jfPosition: "Pozice",
-    jfPositionPlaceholder: "Vyber pozici",
-    jfPosAmbassador: "Ambasador & Social Media",
-    jfPosOther: "Jiná pozice",
-    jfPortfolio: "Portfolio / LinkedIn",
+    jfPosition: "Značka / firma",
+    jfPositionPlaceholder: "Vaše značka, s.r.o.",
+    jfPortfolio: "Web nebo Instagram",
     jfPortfolioOpt: "(nepovinné)",
-    jfAbout: "O tobě",
-    jfSubmit: "Odeslat přihlášku",
+    jfAbout: "O vaší značce",
+    jfSubmit: "Odeslat poptávku",
     jfSubmitting: "Odesílám...",
-    jfSuccess: "Přihláška odeslána!",
-    jfSuccessDesc: "Díky za zájem. Ozveme se ti co nejdříve.",
-    jfErrName: "Vyplňte prosím jméno.",
+    jfSuccess: "Poptávka odeslána!",
+    jfSuccessDesc: "Díky za zájem. Ozveme se vám během několika dní s konkrétními možnostmi.",
+    jfErrName: "Vyplňte prosím kontaktní osobu.",
     jfErrEmail: "Zadejte platný e-mail.",
-    jfErrPos: "Vyberte pozici, o kterou máte zájem.",
-    jfErrMsg: "Napište nám něco o sobě.",
+    jfErrPos: "Vyplňte název značky.",
+    jfErrMsg: "Napište nám pár slov o vaší značce.",
+    jfErrWebsite: "Web zadejte ve formátu www.example.cz",
     jfErrRate: "Počkejte chvíli před dalším odesláním.",
     jfErrGeneral: "Něco se pokazilo. Zkuste to znovu.",
-    jfAboutPlaceholder: "Řekni nám něco o sobě, svých zkušenostech a proč tě Heatmapa zajímá...",
-
-    // About Us Marquee
-    aboutUsTitle1: "O",
-    aboutUsHighlight: "nás",
-    aboutUsText: "Heatmapa je český startup, který mění způsob, jakým lidé objevují svá města. Věříme, že každé místo má příběh a každá akce si zaslouží publikum. Naše živá mapa propojuje místní podniky, organizátory akcí a zvědavé průzkumníky v reálném čase.",
-    mq1: "Živá mapa",
-    mq2: "Místní podniky",
-    mq3: "Události",
-    mq4: "Komunita",
-    mq5: "Objevování",
-    mq6: "Reálný čas",
-    mq7: "Heat zóny",
-    mq8: "Propojení",
-    mq9: "Město",
-    mq10: "Zážitky",
+    jfAboutPlaceholder: "Řekněte nám pár slov o vaší značce — co děláte, jakou cílovku oslovujete a jakou spolupráci si představujete...",
 
     // GDPR
     gdprConsent: "Souhlasím se",
@@ -123,7 +103,7 @@ const translations = {
     // Privacy Policy
     privacyTitle: "Zásady zpracování osobních údajů",
     priv1Title: "1. Správce osobních údajů",
-    priv1Text: "Správcem osobních údajů je společnost heatmapa s.r.o., IČO: 244 19 010 (dále jen \u201ESprávce\u201C). S dotazy ohledně zpracování osobních údajů se na nás můžete obrátit na e-mailu info@heatmapa.cz.",
+    priv1Text: "Správcem osobních údajů je společnost heatmapa s.r.o., IČO: 244 19 010 (dále jen „Správce“). S dotazy ohledně zpracování osobních údajů se na nás můžete obrátit na e-mailu info@heatmapa.cz.",
     priv2Title: "2. Jaké údaje zpracováváme",
     priv2Text: "Zpracováváme údaje, které nám dobrovolně poskytnete prostřednictvím formulářů na těchto stránkách: jméno, e-mailovou adresu, IČO (volitelně), zvolenou roli/pozici, portfolio odkaz a zprávu o sobě. Tyto údaje jsou nezbytné pro zařazení na waitlist nebo zpracování pracovní přihlášky.",
     priv3Title: "3. Účel zpracování",
@@ -140,16 +120,13 @@ const translations = {
 
     // Layout
     back: "Zpět",
-    footer: "heatmapa s.r.o. Všechna práva vyhrazena.",
   },
   en: {
     // Hero
-    heroTitle1: "Discover what's",
-    heroHighlight: "happening",
-    heroTitle2: "around you",
-    heroSub: "Local businesses and real-time events on a live map.",
     heroWaitlist: "Join the Waitlist",
-    heroLearn: "Learn More",
+    heroLearn: "Partnership",
+    heroUpcoming: "Coming up",
+    eventViewButton: "View",
 
     // About
     aboutTitle1: "Your city,",
@@ -160,15 +137,14 @@ const translations = {
     feat1Desc: "Browse restaurants, shops, and more — all updated in real time on an interactive map.",
     feat2Title: "Real-Time Events",
     feat2Desc: "Concerts, pop-ups, markets — discover events the moment they appear nearby.",
-    feat3Title: "Heat Zones",
-    feat3Desc: "See where the crowd is. Activity density visualized so you find the energy fast.",
+    feat3Title: "Personalized notifications",
+    feat3Desc: "Notifications come straight from businesses and event organizers, so you're the first to know about new events and deals nearby.",
     feat4Title: "Instant Updates",
     feat4Desc: "No refresh needed. The map evolves live as things open, start, and change.",
 
     // JoinUs
     joinTitle1: "Who is",
-    joinHighlight: "Heatmapa",
-    joinTitle2: "for?",
+    joinHighlight: "Heatmapa for?",
     joinSub: "Whether you run a business, host events, or love exploring — Heatmapa was built for you.",
     role1Title: "Business Owner",
     role1Desc: "Get discovered by people actively looking for places nearby — right now.",
@@ -178,15 +154,15 @@ const translations = {
     role3Desc: "Find the best spots and events without endless social media scrolling.",
     joinCta: "Get Early Access",
 
-    // JoinTeam
-    teamTitle1: "Join our",
-    teamHighlight: "team",
-    teamSub: "We're a small startup with big ambitions. Join early and help shape how people discover their city.",
-    posTitle: "Ambassador & Social Media Manager",
-    posType: "Part-time · Remote",
-    posDesc: "Represent Heatmapa in your city and on social media. Connect with local businesses, create content, spread the word at events, and help us grow community by community.",
-    posPerks: ["Flexible schedule", "Early access"],
-    applyCta: "Apply Now",
+    // JoinTeam (Partner)
+    teamTitle1: "Become our",
+    teamHighlight: "partner!",
+    teamSub: "Connect your brand with young people deciding in real time where to go and what to try. Be where the city is buzzing right now.",
+    posTitle: "Let's put your brand on the map",
+    partnerOffer: "Free pilot",
+    posDesc: "We're looking for brands that want to be part of what's happening in the city right now. We offer long-term partnerships built on shared growth — connecting your brand with young people who decide in real time where to go and what to try.",
+    posPerks: ["Brand badge at partner events and venues", "Category exclusivity", "Platform for partner venues"],
+    applyCta: "Let's partner up",
 
     // Waitlist Form
     wlTitle1: "Be the first",
@@ -207,7 +183,6 @@ const translations = {
     wlSubmitting: "Submitting...",
     wlSuccess: "You're on the list!",
     wlSuccessDesc: "We'll reach out as soon as we launch early access.",
-    wlSpam: "No spam. Unsubscribe anytime.",
     wlErrName: "Please enter your name.",
     wlErrEmail: "Please enter a valid email.",
     wlErrIco: "Company ID must contain only numbers.",
@@ -216,45 +191,29 @@ const translations = {
     wlErrDuplicate: "This email is already on the waitlist.",
     wlErrGeneral: "Something went wrong. Please try again.",
 
-    // Job Form
-    jfTitle1: "Send us your",
-    jfHighlight: "application",
-    jfSub: "Interested in a position? Fill out the form and we'll get in touch.",
-    jfName: "Name",
+    // Partner Inquiry Form
+    jfTitle1: "Let's talk",
+    jfHighlight: "partnership",
+    jfSub: "Just a few lines about your brand. We'll get back to you with concrete partnership options.",
+    jfName: "Contact person",
     jfEmail: "Email",
-    jfPosition: "Position",
-    jfPositionPlaceholder: "Select a position",
-    jfPosAmbassador: "Ambassador & Social Media",
-    jfPosOther: "Other position",
-    jfPortfolio: "Portfolio / LinkedIn",
+    jfPosition: "Brand / company",
+    jfPositionPlaceholder: "Your brand, Ltd.",
+    jfPortfolio: "Website or Instagram",
     jfPortfolioOpt: "(optional)",
-    jfAbout: "About you",
-    jfSubmit: "Submit Application",
+    jfAbout: "About your brand",
+    jfSubmit: "Send inquiry",
     jfSubmitting: "Submitting...",
-    jfSuccess: "Application sent!",
-    jfSuccessDesc: "Thanks for your interest. We'll be in touch soon.",
-    jfErrName: "Please enter your name.",
+    jfSuccess: "Inquiry sent!",
+    jfSuccessDesc: "Thanks for reaching out. We'll be in touch within a few days with concrete options.",
+    jfErrName: "Please enter a contact person.",
     jfErrEmail: "Please enter a valid email.",
-    jfErrPos: "Please select a position.",
-    jfErrMsg: "Please tell us about yourself.",
+    jfErrPos: "Please enter your brand name.",
+    jfErrMsg: "Please tell us about your brand.",
+    jfErrWebsite: "Website must be in www.example.com format",
     jfErrRate: "Please wait a moment before submitting again.",
     jfErrGeneral: "Something went wrong. Please try again.",
-    jfAboutPlaceholder: "Tell us about yourself, your experience, and why Heatmapa interests you...",
-
-    // About Us Marquee
-    aboutUsTitle1: "About",
-    aboutUsHighlight: "us",
-    aboutUsText: "Heatmapa is a Czech startup changing how people discover their cities. We believe every place has a story and every event deserves an audience. Our live map connects local businesses, event organizers, and curious explorers in real time.",
-    mq1: "Live Map",
-    mq2: "Local Businesses",
-    mq3: "Events",
-    mq4: "Community",
-    mq5: "Discovery",
-    mq6: "Real-Time",
-    mq7: "Heat Zones",
-    mq8: "Connection",
-    mq9: "City",
-    mq10: "Experiences",
+    jfAboutPlaceholder: "Tell us about your brand — what you do, your target audience, and what kind of partnership you have in mind...",
 
     // GDPR
     gdprConsent: "I agree to the",
@@ -281,7 +240,6 @@ const translations = {
 
     // Layout
     back: "Back",
-    footer: "heatmapa s.r.o. All rights reserved.",
   },
 };
 

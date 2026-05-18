@@ -89,22 +89,22 @@ export default function WaitlistForm() {
   }
 
   return (
-    <section className="relative overflow-hidden px-4 py-12 md:px-6 md:py-24">
+    <section className="relative overflow-hidden bg-black px-4 py-12 md:px-6 md:py-24">
       <div className="relative z-10 mx-auto max-w-lg text-center">
-        <h2 className="mb-3 text-xl font-light tracking-wide text-neutral-500 md:text-2xl">
-          {t.wlTitle1} <span className="font-medium bg-linear-to-r from-orange-400/80 to-amber-400/80 bg-clip-text text-transparent">{t.wlHighlight}</span>
+        <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
+          {`${t.wlTitle1} ${t.wlHighlight}`}
         </h2>
-        <p className="mb-8 text-sm text-neutral-600">{t.wlSub}</p>
+        <p className="mb-8 text-base leading-7 text-neutral-400">{t.wlSub}</p>
 
         {submitted ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-8">
+          <div className="glass glass-card no-hover-card rounded-[32px] border border-white/10 bg-black/20 p-8 shadow-[0_35px_80px_rgba(0,0,0,0.32)]">
             <CheckCircle className="mx-auto mb-3 h-8 w-8 text-neutral-400" />
             <p className="text-sm font-medium text-neutral-300">{t.wlSuccess}</p>
             <p className="mt-1 text-xs text-neutral-500">{t.wlSuccessDesc}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="text-left">
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-8">
+            <div className="glass glass-card no-hover-card rounded-[32px] border border-white/10 bg-black/20 p-6 md:p-8 shadow-[0_35px_80px_rgba(0,0,0,0.32)]">
               {/* Honeypot */}
               <input
                 type="text"
@@ -208,7 +208,6 @@ export default function WaitlistForm() {
                 {loading ? t.wlSubmitting : t.wlSubmit}
               </Button>
             </div>
-            <p className="mt-4 text-center text-xs text-neutral-700">{t.wlSpam}</p>
           </form>
         )}
       </div>

@@ -4,14 +4,14 @@ export default function PrivacyPolicy() {
   const { t } = useLang();
 
   return (
-    <section className="px-4 py-12 md:px-6 md:py-24">
-      <div className="mx-auto max-w-2xl">
-        <h1 className="mb-8 text-2xl font-light tracking-wide text-neutral-300 md:text-3xl">
+    <section className="px-4 py-12 bg-black md:px-6 md:py-24">
+      <div className="mx-auto max-w-3xl rounded-[32px] border border-white/10 bg-black/20 p-8 shadow-[0_35px_80px_rgba(0,0,0,0.32)] backdrop-blur-2xl">
+        <h1 className="mb-8 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
           {t.privacyTitle}
         </h1>
-        <div className="space-y-6 text-sm leading-relaxed text-neutral-500">
+        <div className="space-y-6 text-sm leading-relaxed text-neutral-400">
           <div>
-            <h2 className="mb-2 text-base font-medium text-neutral-400">{t.priv1Title}</h2>
+            <h2 className="mb-2 text-base font-semibold text-neutral-300">{t.priv1Title}</h2>
             <p>{t.priv1Text}</p>
           </div>
           <div>

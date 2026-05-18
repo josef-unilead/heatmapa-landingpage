@@ -5,17 +5,17 @@ import { useLang } from "../lib/i18n";
 export default function FormPageLayout({ children }) {
   const { t } = useLang();
   return (
-    <div className="min-h-screen">
-      <nav className="px-6 py-5">
+    <div className="min-h-screen bg-black">
+      <div className="fixed left-4 top-4 z-50">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-3 py-1.5 text-xs text-neutral-500 transition-all duration-500 ease-out hover:border-white/15 hover:text-neutral-300"
+          className="glass floating-glass inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3.5 py-2 text-xs text-neutral-400 transition-all duration-500 ease-out hover:scale-105 hover:bg-white/10"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           {t.back}
         </Link>
-      </nav>
-      {children}
+      </div>
+      <div className="pt-24">{children}</div>
     </div>
   );
 }
