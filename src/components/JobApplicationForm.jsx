@@ -28,7 +28,7 @@ export default function JobApplicationForm() {
 
     // Rate limit
     const now = Date.now();
-    if (now - lastSubmit.current < 10000) {
+    if (now - lastSubmit.current < 3000) {
       setError(t.jfErrRate || "Počkej chvíli před dalším odesláním.");
       return;
     }

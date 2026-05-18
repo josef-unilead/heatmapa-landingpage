@@ -13,7 +13,7 @@ const featureKeys = [
 export default function About() {
   const { t } = useLang();
   return (
-    <section id="about" className="flex min-h-[88vh] items-center bg-black px-4 md:px-6">
+    <section id="about" className="flex items-center bg-black px-4 py-16 md:min-h-[88vh] md:px-6 md:py-0">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6 text-center md:mb-12">
           <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white md:text-4xl">

@@ -45,7 +45,7 @@ export default function WaitlistForm() {
 
     // Rate limit
     const now = Date.now();
-    if (now - lastSubmit.current < 10000) {
+    if (now - lastSubmit.current < 3000) {
       setError(t.wlErrRate || "Počkej chvíli před dalším odesláním.");
       return;
     }

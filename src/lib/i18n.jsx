@@ -41,7 +41,7 @@ const translations = {
     posTitle: "Zviditelněte s námi vaši značku",
     partnerOffer: "Pilot zdarma",
     posDesc: "Hledáme značky, které chtějí být u toho, co se ve městě právě teď děje. Nabízíme dlouhodobou spolupráci postavenou na společném růstu — propojíme vaši značku s mladými lidmi, kteří se v reálném čase rozhodují, kam vyrazí a co zkusí.",
-    posPerks: ["Brand badge u partnerských akcí a podniků", "Kategoriální exkluzivita", "Platforma pro partnerské podniky"],
+    posPerks: ["značka u partnerských událostí a podniků", "Kategoriální exkluzivita", "Platforma pro partnerské podniky"],
     applyCta: "Mám zájem o spolupráci",
 
     // Waitlist Form
@@ -79,7 +79,7 @@ const translations = {
     jfEmail: "E-mail",
     jfPosition: "Značka / firma",
     jfPositionPlaceholder: "Vaše značka, s.r.o.",
-    jfPortfolio: "Web nebo Instagram",
+    jfPortfolio: "Web",
     jfPortfolioOpt: "(nepovinné)",
     jfAbout: "O vaší značce",
     jfSubmit: "Odeslat poptávku",
@@ -161,7 +161,7 @@ const translations = {
     posTitle: "Let's put your brand on the map",
     partnerOffer: "Free pilot",
     posDesc: "We're looking for brands that want to be part of what's happening in the city right now. We offer long-term partnerships built on shared growth — connecting your brand with young people who decide in real time where to go and what to try.",
-    posPerks: ["Brand badge at partner events and venues", "Category exclusivity", "Platform for partner venues"],
+    posPerks: ["Brand at partner events and venues", "Category exclusivity", "Platform for partner venues"],
     applyCta: "Let's partner up",
 
     // Waitlist Form
@@ -199,7 +199,7 @@ const translations = {
     jfEmail: "Email",
     jfPosition: "Brand / company",
     jfPositionPlaceholder: "Your brand, Ltd.",
-    jfPortfolio: "Website or Instagram",
+    jfPortfolio: "Website",
     jfPortfolioOpt: "(optional)",
     jfAbout: "About your brand",
     jfSubmit: "Send inquiry",
