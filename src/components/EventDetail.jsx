@@ -75,7 +75,7 @@ export default function EventDetail() {
             <img
               src={event.image}
               alt={event.title}
-              className="h-80 w-full object-cover sm:h-96 lg:rounded-3xl"
+              className="h-80 w-full rounded-3xl object-cover sm:h-96"
             />
           </div>
 

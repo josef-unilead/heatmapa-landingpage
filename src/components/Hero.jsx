@@ -62,7 +62,7 @@ export default function Hero() {
   const featuredEvent = featuredEvents[lang] || featuredEvents.cs;
 
   return (
-    <section className="relative flex min-h-svh flex-col justify-center bg-black px-4 py-6 md:px-6 md:py-14 lg:min-h-0 lg:block lg:py-20">
+    <section className="relative flex min-h-svh flex-col justify-center bg-black px-4 pt-14 pb-6 md:px-6 md:py-14 lg:min-h-0 lg:block lg:py-20">
       <div className="mx-auto w-full max-w-6xl">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch lg:gap-16">
           <div className="flex flex-col lg:justify-center">

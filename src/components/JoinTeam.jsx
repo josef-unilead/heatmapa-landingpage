@@ -48,7 +48,7 @@ export default function JoinTeam() {
           </div>
 
           <Button variant="primary" size="md" asChild className="w-full max-w-[260px]">
-            <Link to="/jobform">
+            <Link to="/partners">
               {t.applyCta}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>

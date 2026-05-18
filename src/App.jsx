@@ -34,7 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/waitlist" element={<FormRoute><WaitlistForm /></FormRoute>} />
-        <Route path="/jobform" element={<FormRoute><JobApplicationForm /></FormRoute>} />
+        <Route path="/partners" element={<FormRoute><JobApplicationForm /></FormRoute>} />
         <Route path="/privacy" element={<FormRoute><PrivacyPolicy /></FormRoute>} />
         <Route path="/event/:id" element={<FormRoute><EventDetail /></FormRoute>} />
       </Routes>
