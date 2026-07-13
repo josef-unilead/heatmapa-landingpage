@@ -5,43 +5,45 @@ const translations = {
     // Hero
     heroWaitlist: "Připojit se na waitlist",
     heroLearn: "Partnerství",
-    heroUpcoming: "Připravujeme",
-    eventViewButton: "Zobrazit",
+    topicCta: "Přidat se na waitlist",
+    topics: {
+      concerts: { title: "Koncerty", subtitle: "Hudební festivaly a živá vystoupení" },
+      culture: { title: "Kulturní události", subtitle: "Výstavy, přehlídky a umění" },
+      party: { title: "Party", subtitle: "Noční život ve vašem městě" },
+      sports: { title: "Sport", subtitle: "Sportovní turnaje a runcluby" },
+      other: { title: "Ostatní", subtitle: "Všechny akce na jednom místě" },
+    },
 
     // About
     aboutTitle1: "Vaše město,",
     aboutHighlight: "živě",
     aboutTitle2: "na mapě",
-    aboutSub: "Vše co se děje kolem vás — aktuální eventy, personalizované nabídky podniků a vaši přátelé na jedné mapě.",
+    aboutSub: "Vše, co se kolem vás právě teď děje. Už si nikdy nenechte ujít své oblíbené tvůrce, koncerty, kulturní události a aktuální nabídky podniků díky personalizovaným notifikacím, které cílí přesně na vaše zájmy. Mějte přehled o tom, jaké plány mají vaši přátelé, a připojte se k nim. Objevujte skryté poklady svého města s heatmapou!",
     feat1Title: "Podniky v okolí",
-    feat1Desc: "Kavárny, restaurace, kluby i večerky na mapě. Exkluzivní slevy pouze v aplikaci heatmapa.",
     feat2Title: "Události v reálném čase",
-    feat2Desc: "Zapněte si notifikace a dostávejte upozornění na události ve vašem okolí přizpůsobené vašim zájmům.",
     feat3Title: "Personalizované notifikace",
-    feat3Desc: "Notifikace vám chodí přímo od podniků a pořadatelů, takže o nových akcích a slevách ve svém okolí víte první.",
-    feat4Title: "Vaši přátelé",
-    feat4Desc: "Sledujte kamarády na mapě a pozvěte je přímo v aplikaci na sraz do oblíbeného podniku nebo na nejbližší akci.",
+    feat4Title: "Vaši přátelé na mapě",
 
     // JoinUs
     joinTitle1: "Pro koho je",
     joinHighlight: "Heatmapa?",
     joinSub: "Vlastníte podnik, pořádáte akce, nebo rádi objevujete nová místa ve městě? Vyzkoušejte aplikaci heatmapa zdarma!",
     role1Title: "Majitel podniku",
-    role1Desc: "Buďte objeveni lidmi poblíž. Oslovte nové zákazníky cílenou propagací podle jejich zájmů.",
+    role1Desc: "Ukažte se lidem v okolí. Oslovte nové zákazníky cílenou propagací podle jejich zájmů.",
     role2Title: "Pořadatel akcí",
     role2Desc: "Zvýrazněte událost na mapě a v reálném čase oslovte uživatele, kteří se rozhodují právě teď.",
     role3Title: "Objevovatel",
-    role3Desc: "Najděte nejlepší místa a události v okolí a sledujte kamarády na mapě.",
+    role3Desc: "Najděte nejlepší místa a události v okolí, sledujte kamarády na mapě a připojte se k jejich plánům.",
     joinCta: "Získat early access",
 
     // JoinTeam (Partner)
     teamTitle1: "Staňte se naším",
     teamHighlight: "partnerem!",
-    teamSub: "Spojte svou značku s mladými, kteří v reálném čase rozhodují, kam ve městě vyrazí a co vyzkouší. Buďte tam, kde se právě teď něco děje.",
+    teamSub: "Spojte svou značku s mladými, kteří právě teď rozhodují, kam ve městě vyrazí nebo jaký podnik vyzkouší. Buďte vidět v okamžiku rozhodnutí!",
     posTitle: "Zviditelněte s námi vaši značku",
     partnerOffer: "Pilot zdarma",
-    posDesc: "Hledáme značky, které chtějí být u toho, co se ve městě právě teď děje. Nabízíme dlouhodobou spolupráci postavenou na společném růstu — propojíme vaši značku s mladými lidmi, kteří se v reálném čase rozhodují, kam vyrazí a co zkusí.",
-    posPerks: ["Logo u podniků a událostí", "Kategoriální exkluzivita", "Platforma pro partnerské podniky"],
+    posDesc: "Hledáme značky, které chtějí být u toho, co se ve městě právě teď děje. Nabízíme dlouhodobou spolupráci postavenou na společném růstu. Propojíme vaši značku s mladými lidmi, kteří se rozhodují právě teď!",
+    posPerks: ["Logo u podniků a událostí", "Kategoriální exkluzivita", { short: "Partnerské podniky", full: "Platforma pro partnerské podniky" }],
     applyCta: "Mám zájem o spolupráci",
 
     // Waitlist Form
@@ -125,22 +127,24 @@ const translations = {
     // Hero
     heroWaitlist: "Join the Waitlist",
     heroLearn: "Partnership",
-    heroUpcoming: "Coming up",
-    eventViewButton: "View",
+    topicCta: "Join the waitlist",
+    topics: {
+      concerts: { title: "Concerts", subtitle: "Live music near you" },
+      culture: { title: "Cultural events", subtitle: "Culture and arts around you" },
+      party: { title: "Parties", subtitle: "Nightlife and parties nearby" },
+      sports: { title: "Sports", subtitle: "Sports events near you" },
+      other: { title: "Everything else", subtitle: "Markets and everything else" },
+    },
 
     // About
     aboutTitle1: "Your city,",
     aboutHighlight: "alive",
     aboutTitle2: "on a map",
-    aboutSub: "Everything happening around you — hidden gems, buzzing events — all in one living, breathing map.",
-    feat1Title: "Live Business Map",
-    feat1Desc: "Browse restaurants, shops, and more — all updated in real time on an interactive map.",
-    feat2Title: "Real-Time Events",
-    feat2Desc: "Concerts, pop-ups, markets — discover events the moment they appear nearby.",
+    aboutSub: "Everything happening around you at this very moment. Never miss your favorite creators, concerts, cultural events and the latest deals from local venues thanks to personalized notifications tailored to your interests. See what your friends are up to and join them. Discover the hidden gems of your city with heatmapa!",
+    feat1Title: "Venues nearby",
+    feat2Title: "Real-time events",
     feat3Title: "Personalized notifications",
-    feat3Desc: "Notifications come straight from businesses and event organizers, so you're the first to know about new events and deals nearby.",
-    feat4Title: "Instant Updates",
-    feat4Desc: "No refresh needed. The map evolves live as things open, start, and change.",
+    feat4Title: "Your friends on the map",
 
     // JoinUs
     joinTitle1: "Who is",
@@ -161,7 +165,7 @@ const translations = {
     posTitle: "Let's put your brand on the map",
     partnerOffer: "Free pilot",
     posDesc: "We're looking for brands that want to be part of what's happening in the city right now. We offer long-term partnerships built on shared growth — connecting your brand with young people who decide in real time where to go and what to try.",
-    posPerks: ["Logo at venues and events", "Category exclusivity", "Platform for partner venues"],
+    posPerks: ["Logo at venues and events", "Category exclusivity", { short: "Partner venues", full: "Platform for partner venues" }],
     applyCta: "Let's partner up",
 
     // Waitlist Form

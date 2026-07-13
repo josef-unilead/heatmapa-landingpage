@@ -8,7 +8,7 @@ export default function JoinTeam() {
   const { t } = useLang();
 
   return (
-    <section id="careers" className="relative flex min-h-[88vh] items-center px-4 md:px-6">
+    <section id="careers" className="relative flex min-h-[88svh] flex-col items-center justify-center px-4 py-16 md:px-6">
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-6 text-center md:mb-12">
           <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
@@ -37,17 +37,22 @@ export default function JoinTeam() {
               </span>
               {t.partnerOffer}
             </span>
-            {t.posPerks.map((perk) => (
-              <span
-                key={perk}
-                className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-neutral-400 md:text-sm"
-              >
-                {perk}
-              </span>
-            ))}
+            {t.posPerks.map((perk) => {
+              const full = typeof perk === "string" ? perk : perk.full;
+              const short = typeof perk === "string" ? perk : perk.short;
+              return (
+                <span
+                  key={full}
+                  className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-neutral-400 md:text-sm"
+                >
+                  <span className="md:hidden">{short}</span>
+                  <span className="hidden md:inline">{full}</span>
+                </span>
+              );
+            })}
           </div>
 
-          <Button variant="primary" size="md" asChild className="w-full max-w-[260px]">
+          <Button variant="primary" size="md" asChild className="w-full max-w-65">
             <Link to="/partners">
               {t.applyCta}
               <ArrowRight className="h-3.5 w-3.5" />

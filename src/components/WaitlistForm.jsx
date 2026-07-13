@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { CheckCircle, User, Mail, Hash } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
@@ -15,7 +15,15 @@ function sanitize(str, maxLength = 200) {
 
 export default function WaitlistForm() {
   const { t } = useLang();
-  const [form, setForm] = useState({ name: "", email: "", ico: "", roles: [], gdpr: false });
+  const [searchParams] = useSearchParams();
+  const preRole = searchParams.get("role");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    ico: "",
+    roles: VALID_ROLES.includes(preRole) ? [preRole] : [],
+    gdpr: false,
+  });
   const [honeypot, setHoneypot] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");

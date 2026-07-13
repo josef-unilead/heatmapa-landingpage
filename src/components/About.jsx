@@ -1,47 +1,47 @@
-import { MapPin, Flame, BellRing, UsersRound } from "lucide-react";
-import { Card } from "./ui/card";
+import { Store, CalendarDays, Bell, Users } from "lucide-react";
 import { useLang } from "../lib/i18n";
 
-const featureIcons = [MapPin, Flame, BellRing, UsersRound];
-const featureKeys = [
-  { title: "feat1Title", desc: "feat1Desc" },
-  { title: "feat2Title", desc: "feat2Desc" },
-  { title: "feat3Title", desc: "feat3Desc" },
-  { title: "feat4Title", desc: "feat4Desc" },
+const FEATURES = [
+  { Icon: Store, key: "feat1Title" },
+  { Icon: CalendarDays, key: "feat2Title" },
+  { Icon: Bell, key: "feat3Title" },
+  { Icon: Users, key: "feat4Title" },
 ];
 
 export default function About() {
   const { t } = useLang();
+
   return (
-    <section id="about" className="flex items-center bg-black px-4 py-16 md:min-h-[88vh] md:px-6 md:py-0">
-      <div className="mx-auto w-full max-w-5xl">
-        <div className="mb-6 text-center md:mb-12">
-          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
-            {`${t.aboutTitle1} ${t.aboutHighlight} ${t.aboutTitle2}`}
+    <section id="about" className="relative flex min-h-svh items-center overflow-hidden border-y border-white/5 bg-[#0d0a07] px-4 py-16 md:min-h-0 md:px-6 md:py-24">
+      {/* Soft orange glow from the top to set the section apart from the black page */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(249,115,22,0.09),transparent_70%)]"
+      />
+
+      <div className="relative mx-auto w-full max-w-5xl">
+        <div className="text-center">
+          <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-white md:mb-5 md:text-4xl">
+            {t.aboutTitle1}{" "}
+            <span className="text-orange-400">{t.aboutHighlight}</span>{" "}
+            {t.aboutTitle2}
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-7 text-neutral-400 md:text-lg">
+          <p className="mx-auto max-w-3xl text-base leading-7 text-neutral-400 md:text-lg md:leading-8">
             {t.aboutSub}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-          {featureKeys.map(({ title, desc }, i) => {
-            const Icon = featureIcons[i];
+        {/* Feature icons — plain icon + short label rows, no cards */}
+        <div className="mx-auto mt-10 grid w-fit grid-cols-1 gap-x-16 gap-y-6 sm:grid-cols-[auto_auto] md:mt-14 md:gap-y-8">
+          {FEATURES.map((feature) => {
+            const Icon = feature.Icon;
             return (
-              <Card
-                key={title}
-                className="no-hover-card flex flex-col items-start gap-5 rounded-4xl border border-white/10 bg-black/20 p-8 text-left shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-orange-500/15 bg-orange-500/5 shadow-[0_0_16px_rgba(249,115,22,0.18)]">
-                  <Icon className="h-6 w-6 text-orange-400/90" />
-                </div>
-                <h3 className="text-base font-semibold text-white">
-                  {t[title]}
-                </h3>
-                <p className="text-sm leading-relaxed text-neutral-400">
-                  {t[desc]}
-                </p>
-              </Card>
+              <div key={feature.key} className="flex items-center gap-4">
+                <Icon className="h-6 w-6 shrink-0 text-orange-400 drop-shadow-[0_0_12px_rgba(249,115,22,0.35)] md:h-7 md:w-7" />
+                <span className="text-base text-white md:text-lg">
+                  {t[feature.key]}
+                </span>
+              </div>
             );
           })}
         </div>

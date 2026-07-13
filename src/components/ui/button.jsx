@@ -42,7 +42,7 @@ export function Button({ className, variant, size, asChild = false, ...props }) 
       target.classList.add('ripple-container');
       target.appendChild(r);
       setTimeout(() => r.remove(), 650);
-    } catch (err) {
+    } catch {
       // ignore
     }
   }, []);

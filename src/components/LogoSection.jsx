@@ -23,19 +23,22 @@ const GRID_CONFIG = {
 
 export default function LogoSection() {
   return (
-    <section className="relative flex min-h-[33vh] w-full items-center justify-center bg-black px-4 py-8">
-      <div className="absolute inset-0 z-10 flex items-center justify-center opacity-90">
-        <div
-          className="h-32 w-32 -translate-y-10 md:h-48 md:w-48 md:-translate-y-16 lg:h-56 lg:w-56"
-          style={maskStyle}
-        >
-          <FlickeringGrid {...GRID_CONFIG.logo} />
-        </div>
+    <section className="relative flex min-h-[33svh] w-full flex-col items-center justify-center gap-6 bg-black px-4 pt-6 pb-6 md:gap-8 md:px-6 md:pt-8">
+      <div
+        className="h-28 w-28 opacity-90 md:h-40 md:w-40 lg:h-48 lg:w-48"
+        style={maskStyle}
+      >
+        <FlickeringGrid {...GRID_CONFIG.logo} />
       </div>
 
-      <div className="absolute inset-x-0 bottom-6 z-20 text-center text-xs tracking-wide text-neutral-500 md:bottom-8 md:text-sm">
+      <div className="text-center text-xs tracking-wide text-neutral-500 md:text-sm">
         <p className="mb-2">
           © 2026 heatmapa s.r.o. Všechna práva vyhrazena.
+        </p>
+        <p className="mb-2">
+          <a href="mailto:info@heatmapa.cz" className="transition-colors hover:text-orange-400">
+            info@heatmapa.cz
+          </a>
         </p>
         <p>IČO: 244 19 010</p>
       </div>
