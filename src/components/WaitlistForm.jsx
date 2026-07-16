@@ -152,7 +152,7 @@ export default function WaitlistForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.wlName}</label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" maxLength={100} />
+                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t.wlNamePlaceholder} className="pl-10" maxLength={100} />
                 </div>
               </div>
 
@@ -160,7 +160,7 @@ export default function WaitlistForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.wlEmail}</label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" maxLength={200} />
+                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder={t.wlEmailPlaceholder} className="pl-10" maxLength={200} />
                 </div>
               </div>
 
@@ -177,7 +177,7 @@ export default function WaitlistForm() {
                       const val = e.target.value.replace(/\D/g, "");
                       setForm({ ...form, ico: val });
                     }}
-                    placeholder="12345678"
+                    placeholder={t.wlIcoPlaceholder}
                     className="pl-10"
                     maxLength={8}
                     inputMode="numeric"

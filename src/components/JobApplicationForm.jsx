@@ -103,7 +103,7 @@ export default function JobApplicationForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfName}</label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jan Novák" className="pl-10" maxLength={100} />
+                  <Input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t.jfNamePlaceholder} className="pl-10" maxLength={100} />
                 </div>
               </div>
 
@@ -111,7 +111,7 @@ export default function JobApplicationForm() {
                 <label className="mb-2 block text-xs font-medium tracking-wide text-neutral-400 uppercase">{t.jfEmail}</label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600" />
-                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jan@example.com" className="pl-10" maxLength={200} />
+                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder={t.jfEmailPlaceholder} className="pl-10" maxLength={200} />
                 </div>
               </div>
 
@@ -133,11 +133,11 @@ export default function JobApplicationForm() {
                     type="text"
                     value={form.website}
                     onChange={(e) => setForm({ ...form, website: e.target.value })}
-                    placeholder="www.vasenacka.cz"
+                    placeholder={t.jfWebsitePlaceholder}
                     className="pl-10"
                     maxLength={500}
                     pattern="www\.[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+"
-                    title="Web ve formátu www.example.cz"
+                    title={t.jfErrWebsite}
                   />
                 </div>
               </div>
