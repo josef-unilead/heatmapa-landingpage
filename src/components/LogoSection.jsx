@@ -1,4 +1,5 @@
 import { FlickeringGrid } from "./ui/flickering-grid";
+import { useLang } from "../lib/i18n";
 
 const maskStyle = {
   WebkitMaskImage: `url('/logo.svg')`,
@@ -22,6 +23,7 @@ const GRID_CONFIG = {
 };
 
 export default function LogoSection() {
+  const { t } = useLang();
   return (
     <section className="relative flex min-h-[33svh] w-full flex-col items-center justify-center gap-6 bg-black px-4 pt-6 pb-6 md:gap-8 md:px-6 md:pt-8">
       <div
@@ -33,14 +35,14 @@ export default function LogoSection() {
 
       <div className="text-center text-xs tracking-wide text-neutral-500 md:text-sm">
         <p className="mb-2">
-          © 2026 heatmapa s.r.o. Všechna práva vyhrazena.
+          © {t.footerYear} heatmapa s.r.o. {t.footerCopyright}
         </p>
         <p className="mb-2">
           <a href="mailto:info@heatmapa.cz" className="transition-colors hover:text-orange-400">
-            info@heatmapa.cz
+            {t.footerEmail}
           </a>
         </p>
-        <p>IČO: 244 19 010</p>
+        <p>{t.footerCompanyId}: 244 19 010</p>
       </div>
     </section>
   );

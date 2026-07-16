@@ -1,34 +1,37 @@
 import { Layers, Zap, MonitorSmartphone } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
+import { useLang } from "../lib/i18n";
 
 const pillarIcons = [Layers, Zap, MonitorSmartphone];
-const pillars = [
-  {
-    title: "Moderní 3D mapa",
-    desc: "Ulička tvého města přesně tak, jak ji znáš, s plynulým přiblížením a elegantním nočním zobrazením.",
-  },
-  {
-    title: "Drží krok s tebou",
-    desc: "Mapa reaguje okamžitě ať jsi kdekoliv. Plynulé načtení a rychlé aktualizace obsahu.",
-  },
-  {
-    title: "Perfektně optimalizovaná",
-    desc: "Běží plynule na všech platformách i starších zařízeních.",
-  },
-];
 
 export default function MapboxSection() {
+  const { t } = useLang();
+  const pillars = [
+    {
+      title: t.mapboxPillar1Title,
+      desc: t.mapboxPillar1Desc,
+    },
+    {
+      title: t.mapboxPillar2Title,
+      desc: t.mapboxPillar2Desc,
+    },
+    {
+      title: t.mapboxPillar3Title,
+      desc: t.mapboxPillar3Desc,
+    },
+  ];
+
   return (
     <section id="mapbox" className="flex min-h-[88svh] items-center overflow-hidden px-4 py-16 md:px-6">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6 text-center md:mb-12">
           <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
-            {"Postaveno na "}
+            {t.mapboxTitle}{" "}
             <span className="text-orange-400">Mapbox</span>
           </h2>
           <p className="mx-auto max-w-2xl text-base leading-7 text-neutral-400 md:text-lg">
-            Rychlá a moderní mapová technologie využívaná společnostmi BMW, Snapchat nebo Airbnb.
+            {t.mapboxSub}
           </p>
         </div>
 
@@ -78,7 +81,7 @@ export default function MapboxSection() {
         <div className="mt-8 text-center md:mt-10">
           <Button variant="outline" size="md" asChild>
             <a href="https://www.mapbox.com/" target="_blank" rel="noopener noreferrer">
-              Více o Mapbox
+              {t.mapboxMoreLink}
             </a>
           </Button>
         </div>
