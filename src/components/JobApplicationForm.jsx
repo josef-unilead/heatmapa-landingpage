@@ -166,7 +166,7 @@ export default function JobApplicationForm() {
                   </div>
                   <span className="text-xs text-neutral-500">
                     {t.gdprConsent}{" "}
-                    <Link to="/privacy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
+                    <Link to="/privacypolicy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
                       {t.gdprLink}
                     </Link>
                   </span>
