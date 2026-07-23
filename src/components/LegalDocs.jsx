@@ -38,7 +38,7 @@ export default function LegalDocs({ type }) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {doc.versions.map((v) => (
             <a key={v.href} href={v.href} target="_blank" rel="noopener noreferrer">
-              <Card className="flex h-full flex-col items-start gap-4 rounded-4xl border border-white/10 bg-black/20 p-6 text-left transition-colors hover:border-orange-500/40 md:p-8">
+              <Card className="no-hover-card flex h-full flex-col items-start gap-4 rounded-4xl border border-white/10 bg-black/20 p-6 text-left transition-colors hover:border-orange-500/40 md:p-8">
                 <div className="flex w-full items-center justify-between">
                   <span className="text-3xl" aria-hidden="true">{v.flag}</span>
                   <span className="rounded-full border border-orange-500/15 bg-orange-500/5 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-orange-400/90 uppercase">

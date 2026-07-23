@@ -24,7 +24,7 @@ const STYLES = {
   },
   card: {
     pad: "",
-    card: "glass glass-card rounded-[28px] border border-white/10 bg-black/20 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-4",
+    card: "glass glass-card no-hover-card rounded-[28px] border border-white/10 bg-black/20 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-4",
     media: "mb-3 rounded-2xl sm:mb-4",
     title: "text-base sm:text-lg",
     subtitle: "mt-0.5 truncate text-xs sm:mt-1 sm:text-sm",
