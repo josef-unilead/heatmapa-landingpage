@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FlickeringGrid } from "./ui/flickering-grid";
 import { useLang } from "../lib/i18n";
 
@@ -44,23 +45,13 @@ export default function LogoSection() {
         </p>
         <p className="mb-2">{t.footerCompanyId}: 244 19 010</p>
         <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-          <a
-            href={t.footerTermsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-orange-400"
-          >
+          <Link to="/termsofuse" className="transition-colors hover:text-orange-400">
             {t.footerTerms}
-          </a>
+          </Link>
           <span aria-hidden="true" className="text-neutral-700">|</span>
-          <a
-            href={t.footerPrivacyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-orange-400"
-          >
+          <Link to="/privacypolicy" className="transition-colors hover:text-orange-400">
             {t.footerPrivacy}
-          </a>
+          </Link>
         </p>
       </div>
     </section>
