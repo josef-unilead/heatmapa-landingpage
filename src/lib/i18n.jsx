@@ -144,6 +144,10 @@ const translations = {
     footerYear: "2026",
     footerEmail: "info@heatmapa.cz",
     footerCompanyId: "IČO",
+    footerTerms: "Obchodní podmínky",
+    footerTermsUrl: "/legal/heatmapa-obchodni-podminky.pdf",
+    footerPrivacy: "Zásady zpracování osobních údajů",
+    footerPrivacyUrl: "/legal/privacypolicy-cs.html",
   },
   en: {
     // Hero
@@ -288,6 +292,10 @@ const translations = {
     footerYear: "2026",
     footerEmail: "info@heatmapa.cz",
     footerCompanyId: "Company ID",
+    footerTerms: "Terms of Use",
+    footerTermsUrl: "/legal/heatmapa-terms-of-use-en.pdf",
+    footerPrivacy: "Privacy Policy",
+    footerPrivacyUrl: "/legal/privacypolicy-en.html",
   },
 };
 
