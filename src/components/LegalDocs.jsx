@@ -6,8 +6,8 @@ const DOCS = {
   terms: {
     titleKey: "legalTermsTitle",
     versions: [
-      { flag: "🇨🇿", label: "Čeština", name: "Obchodní podmínky", href: "/legal/heatmapa-obchodni-podminky.pdf", format: "PDF" },
-      { flag: "🇬🇧", label: "English", name: "Terms of Use", href: "/legal/heatmapa-terms-of-use-en.pdf", format: "PDF" },
+      { flag: "🇨🇿", label: "Čeština", name: "Obchodní podmínky", href: "/legal/termsofuse-cs.html", format: "HTML" },
+      { flag: "🇬🇧", label: "English", name: "Terms of Use", href: "/legal/termsofuse-en.html", format: "HTML" },
     ],
   },
   privacy: {

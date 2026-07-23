@@ -44,11 +44,12 @@ export default function LogoSection() {
           </a>
         </p>
         <p className="mb-2">{t.footerCompanyId}: 244 19 010</p>
-        <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+        <p className="mb-2">
           <Link to="/termsofuse" className="transition-colors hover:text-orange-400">
             {t.footerTerms}
           </Link>
-          <span aria-hidden="true" className="text-neutral-700">|</span>
+        </p>
+        <p>
           <Link to="/privacypolicy" className="transition-colors hover:text-orange-400">
             {t.footerPrivacy}
           </Link>
