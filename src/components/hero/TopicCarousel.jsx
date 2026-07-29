@@ -80,6 +80,7 @@ export default function TopicCarousel({ topics, variant = "card", onActiveChange
   const [videoIndex, setVideoIndex] = useState(0);
   const [prev, setPrev] = useState(null); // { index, dir } odjíždějící kartička
   const videoRef = useRef(null);
+  const prefetched = useRef(new Set());
 
   const topic = topics[topicIndex];
   const media = topic.videos[videoIndex];
@@ -122,6 +123,21 @@ export default function TopicCarousel({ topics, variant = "card", onActiveChange
     onActiveChange?.(topicIndex);
   }, [topicIndex, onActiveChange]);
 
+  // Jakmile běží aktuální klip, na pozadí stáhneme ten následující do cache
+  // prohlížeče — přepnutí tématu pak nečeká na síť a nezasekne se na posteru.
+  function prefetchNext() {
+    const next =
+      videoIndex < topic.videos.length - 1
+        ? topic.videos[videoIndex + 1]
+        : topics[(topicIndex + 1) % topics.length].videos[0];
+    const url = `${next.src}.mp4`;
+    if (prefetched.current.has(url)) return;
+    prefetched.current.add(url);
+    fetch(url, { priority: "low" })
+      .then((r) => r.blob())
+      .catch(() => {});
+  }
+
   // Po dohrání videa: druhé video tématu, nebo přepni na další téma.
   function handleEnded() {
     if (videoIndex < topic.videos.length - 1) setVideoIndex(videoIndex + 1);
@@ -159,6 +175,7 @@ export default function TopicCarousel({ topics, variant = "card", onActiveChange
               playsInline
               autoPlay
               preload="auto"
+              onPlaying={prefetchNext}
               onEnded={handleEnded}
               aria-label={topic.title}
             />

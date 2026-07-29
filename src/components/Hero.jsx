@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useLang } from "../lib/i18n";
@@ -7,9 +8,10 @@ import HeatmapaWordmark from "./ui/HeatmapaWordmark";
 
 // Pořadí témat a jejich data (společná pro oba jazyky).
 // Nadpisy a podnadpisky jsou lokalizované v i18n (t.topics).
-// `videos` – dvě videa tématu. `style` = volitelný inline styl pro doladění výřezu
-//   videa: videa jsou na výšku (portrét), v 16:9 rámu se zobrazuje vodorovný pruh,
-//   `objectPosition` určuje který (0% = nahoře, 50% = uprostřed, 100% = dole).
+// `videos` – dvě videa tématu. Až na /culture-1 jsou soubory už oříznuté přesně na
+//   16:9 pruh, který se v kartičce zobrazuje (výřez je zapečený v souboru, ne v CSS).
+//   `style` = volitelný `objectPosition` pro doladění výřezu u videa, které je pořád
+//   na výšku (0% = nahoře, 50% = uprostřed, 100% = dole).
 // `location` – poloha tématu na mapě (lat/lng). Náhodné body kolem centra Prahy,
 //   dost blízko, aby přejezd byl plynulý. Zoom je společný (MAP_ZOOM v PhoneMockup).
 const TOPIC_ORDER = ["concerts", "culture", "party", "sports", "other"];
@@ -27,14 +29,29 @@ const TOPIC_DATA = {
     location: { lat: 50.0947, lng: 14.4159 }, // kyvadlo na Letné (metronom)
   },
   sports: {
-    videos: [{ src: "/sports-1", style: { objectPosition: "50% 30%" } }, { src: "/sports-2", style: { objectPosition: "50% 42%" } }],
+    videos: [{ src: "/sports-1" }, { src: "/sports-2" }],
     location: { lat: 50.1013, lng: 14.4163 }, // hala Královka
   },
   other: {
-    videos: [{ src: "/other-1", style: { objectPosition: "50% 0%" } }, { src: "/other-2" }],
+    videos: [{ src: "/other-1" }, { src: "/other-2" }],
     location: { lat: 50.0813, lng: 14.4254 }, // Lucerna Music Bar
   },
 };
+
+// Mobil i desktop mají vlastní variantu carouselu. Renderujeme vždy jen jednu –
+// kdyby v DOM visely obě (jen schované přes CSS), stahují a dekódují se dvě videa
+// naráz a na mobilu se navíc zbytečně inicializuje Mapbox v maketě telefonu.
+const DESKTOP_MQ = "(min-width: 1024px)"; // = Tailwind lg
+
+function subscribeDesktop(onChange) {
+  const mq = window.matchMedia(DESKTOP_MQ);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function useIsDesktop() {
+  return useSyncExternalStore(subscribeDesktop, () => window.matchMedia(DESKTOP_MQ).matches);
+}
 
 function HeroContent() {
   const { t } = useLang();
@@ -104,6 +121,7 @@ function HeroContent() {
 
 export default function Hero() {
   const { t } = useLang();
+  const isDesktop = useIsDesktop();
 
   const topics = TOPIC_ORDER.map((id) => ({
     id,
@@ -119,12 +137,15 @@ export default function Hero() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[9fr_11fr] lg:items-stretch lg:gap-6">
           {/* Mobile: event card below content | Desktop: phone on the left */}
           <div className="order-2 flex w-full items-center justify-center lg:order-1 lg:justify-start lg:sticky lg:top-24">
-            <div className="mx-auto block w-full max-w-md lg:hidden">
-              <TopicCarousel topics={topics} variant="card" />
-            </div>
-            <div className="hidden w-full items-center justify-start lg:flex">
-              <PhoneMockup topics={topics} />
-            </div>
+            {isDesktop ? (
+              <div className="flex w-full items-center justify-start">
+                <PhoneMockup topics={topics} />
+              </div>
+            ) : (
+              <div className="mx-auto w-full max-w-md">
+                <TopicCarousel topics={topics} variant="card" />
+              </div>
+            )}
           </div>
 
           {/* Mobile: logo + buttons + store badges on top | Desktop: on the right */}
