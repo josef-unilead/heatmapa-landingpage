@@ -39,7 +39,7 @@ export default function LogoSection() {
           © {t.footerYear} heatmapa s.r.o. {t.footerCopyright}
         </p>
         <p className="mb-2">
-          <a href="mailto:info@heatmapa.cz" className="transition-colors hover:text-orange-400">
+          <a href="mailto:info@heatmapa.com" className="transition-colors hover:text-orange-400">
             {t.footerEmail}
           </a>
         </p>
