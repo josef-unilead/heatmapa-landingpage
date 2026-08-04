@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 :root {
+  /* Stránka je jen tmavá. Bez tohohle si prohlížeč myslí, že je světlá, a v light
+     režimu vykreslí formulářová pole, autofill, kurzor i scrollbary světle –
+     bílý text na bílém poli. Zároveň to vypíná auto-dark inverzi v Chrome for
+     Android a Samsung Internetu. */
+  color-scheme: dark;
+
   --bg: #000000;
   --card: #1A1A1A;
   --accent-from: #FFD27A;
@@ -19,6 +25,7 @@
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
+  background-color: var(--bg);
 }
 
 body {
@@ -35,6 +42,70 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+   Formulářová pole – pojistka čitelnosti.
+
+   Tailwind v4 dává celý svůj výstup do @layer. Prohlížeč, který cascade layers
+   neumí (starší Chrome/Samsung Internet, WebView v in-app prohlížečích
+   Instagramu či Messengeru), zahodí najednou VŠECHNY utility třídy. Pole pak
+   spadne na UA default = bílý box a podle prohlížeče v něm zůstane bílý text –
+   přesně ten hlášený "nevidím, co píšu".
+
+   Proto je vzhled pole definovaný tady: mimo @layer, bez var() v barvách, bez
+   color-mix() a bez oklab() – jen prostý hex/rgba, kterému rozumí i deset let
+   starý engine. Nezalayerovaná pravidla mají v kaskádě přednost před vším
+   uvnitř @layer, takže tohle je jediný zdroj pravdy pro barvy pole a v
+   komponentách zůstávají utility jen na tvar, rozestupy a focus ring.
+   --------------------------------------------------------------------------- */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  background-color: #141416;
+  color: #FFFFFF;
+  -webkit-text-fill-color: #FFFFFF; /* iOS Safari jinak umí barvu textu přebít */
+  caret-color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(251, 146, 60, 0.40); /* = orange-400/40 */
+  outline: none;
+}
+
+option {
+  background-color: #141416;
+  color: #FFFFFF;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6E6E73;
+  /* -webkit-text-fill-color z pravidla výš se propisuje i do placeholderu –
+     bez tohohle by byl ve WebKitu bílý a vypadal by jako vyplněná hodnota. */
+  -webkit-text-fill-color: #6E6E73;
+  opacity: 1; /* Firefox jinak placeholder ještě zesvětluje */
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #6E6E73;
+  -webkit-text-fill-color: #6E6E73;
+}
+
+/* Automatické vyplnění v Chrome/Safari si jinak natlačí vlastní světlé pozadí
+   pod náš bílý text. Stín přes celé pole je jediný způsob, jak ho přebít. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #FFFFFF;
+  caret-color: #FFFFFF;
+  -webkit-box-shadow: 0 0 0 1000px #141416 inset;
+  box-shadow: 0 0 0 1000px #141416 inset;
 }
 
 ::selection {
