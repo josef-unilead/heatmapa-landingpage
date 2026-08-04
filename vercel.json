@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "comment": "SPA fallback. /_vercel/* je vyjmuté – odtud se serviruje skript Vercel Analytics (/_vercel/insights/script.js) a catch-all rewrite by místo něj vrátil index.html.",
+      "source": "/((?!_vercel/).*)",
+      "destination": "/"
+    }
   ]
 }

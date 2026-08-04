@@ -1,4 +1,7 @@
 import { Routes, Route } from "react-router-dom";
+// Pozor: /react, ne /next – tohle je Vite SPA. Komponenta si sama odchytává
+// změny historie, takže se počítají i přechody mezi routami react-routeru.
+import { Analytics } from "@vercel/analytics/react";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import JoinUs from "./components/JoinUs";
@@ -44,6 +47,7 @@ export default function App() {
         <Route path="/termsofuse" element={<FormRoute><LegalDocs type="terms" /></FormRoute>} />
         <Route path="/privacypolicy" element={<FormRoute><LegalDocs type="privacy" /></FormRoute>} />
       </Routes>
+      <Analytics />
     </ErrorBoundary>
   );
 }
