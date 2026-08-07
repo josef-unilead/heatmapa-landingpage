@@ -5,9 +5,24 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', '.pgdata-test']),
+  // Serverové funkce, skripty a testy běží v nodu, ne v prohlížeči.
+  // Bez tohohle bloku hlásí eslint process a Buffer jako neznámé.
+  {
+    files: ['api/**/*.js', 'scripts/**/*.mjs', 'tests/**/*.js', 'vite.config.js'],
+    extends: [js.configs.recommended],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.node,
+    },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
   {
     files: ['**/*.{js,jsx}'],
+    ignores: ['api/**', 'scripts/**', 'tests/**'],
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,

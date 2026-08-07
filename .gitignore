@@ -28,3 +28,4 @@ dist-ssr
 # Video toolchain (lokální nástroj + surová videa, nepatří do gitu)
 bin/ffmpeg
 raw-videos/
+.pgdata-test/
