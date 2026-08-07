@@ -1,5 +1,16 @@
 {
   "rewrites": [
+    { "source": "/akce/:slug", "destination": "/api/og/:slug" },
     { "source": "/((?!api/|_vercel/).*)", "destination": "/" }
+  ],
+  "headers": [
+    {
+      "source": "/t/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/ticket-sw.js",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    }
   ]
 }

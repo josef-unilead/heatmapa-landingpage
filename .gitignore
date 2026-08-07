@@ -29,3 +29,4 @@ dist-ssr
 bin/ffmpeg
 raw-videos/
 .pgdata-test/
+tests/e2e/screenshots/

@@ -15,7 +15,9 @@
     "test:db": "node --test --test-timeout=600000 \"tests/capacity.test.js\"",
     "test:all": "npm test && npm run test:db",
     "verify:security": "node --env-file=.env scripts/verify-security.mjs",
-    "test:emails": "node --env-file=.env scripts/test-emails.mjs"
+    "test:emails": "node --env-file=.env scripts/test-emails.mjs",
+    "dev:api": "node --env-file=.env --watch scripts/dev-api.mjs",
+    "test:e2e": "node --env-file=.env tests/e2e/registrace.mjs && node --env-file=.env tests/e2e/flow.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
@@ -46,6 +48,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "postgres": "^3.4.9",
+    "puppeteer": "^25.5.0",
     "vite": "^8.0.1"
   }
 }

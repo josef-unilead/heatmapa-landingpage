@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 // Pozor: /react, ne /next – tohle je Vite SPA. Komponenta si sama odchytává
 // změny historie, takže se počítají i přechody mezi routami react-routeru.
@@ -16,11 +17,19 @@ import JobApplicationForm from "./components/JobApplicationForm";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import LegalDocs from "./components/LegalDocs";
 import ErrorBoundary from "./components/ErrorBoundary";
+import EventSection from "./components/event/EventSection";
+import EventPage from "./components/event/EventPage";
+import ConfirmPage from "./components/event/ConfirmPage";
+
+// Vstupenka si nese knihovnu na kreslení QR kódu, kterou nikde jinde na webu
+// nepotřebujeme. Načte se až když na ni někdo přijde.
+const TicketPage = lazy(() => import("./components/event/TicketPage"));
 
 function LandingPage() {
   return (
     <>
       <Hero />
+      <EventSection />
       <About />
       <JoinUs />
       <MapboxSection />
@@ -46,6 +55,20 @@ export default function App() {
         <Route path="/privacy" element={<FormRoute><PrivacyPolicy /></FormRoute>} />
         <Route path="/termsofuse" element={<FormRoute><LegalDocs type="terms" /></FormRoute>} />
         <Route path="/privacypolicy" element={<FormRoute><LegalDocs type="privacy" /></FormRoute>} />
+
+        {/* Guestlist na akce */}
+        <Route path="/akce/:slug" element={<FormRoute><EventPage /></FormRoute>} />
+        <Route path="/rezervace/potvrdit" element={<FormRoute><ConfirmPage /></FormRoute>} />
+        <Route
+          path="/t/:token"
+          element={
+            <FormRoute>
+              <Suspense fallback={<div className="min-h-[60vh]" />}>
+                <TicketPage />
+              </Suspense>
+            </FormRoute>
+          }
+        />
       </Routes>
       <Analytics />
     </ErrorBoundary>

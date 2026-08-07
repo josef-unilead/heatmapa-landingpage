@@ -17,7 +17,14 @@ export default defineConfig([
       globals: globals.node,
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Velká počáteční písmena jsou komponenty. Bez eslint-plugin-react
+      // nevidí základní pravidlo použití v JSX, takže by hlásilo jako
+      // nepoužité i to, co se vykresluje. Platí i na parametry, kvůli
+      // zápisu typu function Field({ icon: Icon }).
+      'no-unused-vars': ['error', {
+        varsIgnorePattern: '^[A-Z_]',
+        argsIgnorePattern: '^[A-Z_]',
+      }],
     },
   },
   {
@@ -38,7 +45,14 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Velká počáteční písmena jsou komponenty. Bez eslint-plugin-react
+      // nevidí základní pravidlo použití v JSX, takže by hlásilo jako
+      // nepoužité i to, co se vykresluje. Platí i na parametry, kvůli
+      // zápisu typu function Field({ icon: Icon }).
+      'no-unused-vars': ['error', {
+        varsIgnorePattern: '^[A-Z_]',
+        argsIgnorePattern: '^[A-Z_]',
+      }],
     },
   },
 ])
