@@ -11,7 +11,14 @@ import { useEffect, useRef } from "react";
 
 const SCRIPT_URL =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+// Site key je veřejný ze své podstaty, Cloudflare ho očekává přímo v HTML
+// stránky. Tajný je jenom TURNSTILE_SECRET_KEY, a ten zůstává na serveru bez
+// prefixu VITE_, takže se do buildu nikdy nedostane.
+//
+// Název proměnné nekončí na KEY schválně: Vercel na každý název s "KEY"
+// a prefixem VITE_ hlásí varování, že se hodnota zveřejní. U tohohle klíče
+// je to v pořádku a nemá smysl kvůli tomu koukat na červenou hlášku.
+const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE;
 
 let scriptPromise;
 
@@ -48,7 +55,7 @@ export default function Turnstile({ onToken, onExpire, resetKey }) {
 
   useEffect(() => {
     if (!SITE_KEY) {
-      console.warn("Chybí VITE_TURNSTILE_SITE_KEY, ověření se nevykreslí.");
+      console.warn("Chybí VITE_TURNSTILE_SITE, ověření se nevykreslí.");
       return;
     }
 

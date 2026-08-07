@@ -73,7 +73,7 @@ for (const file of files) {
 // protože server bez ověřené výzvy nikoho nepustí. Radši ať spadne build.
 // ---------------------------------------------------------------------------
 const REQUIRED_IN_BUNDLE = [
-  ["challenges.cloudflare.com", "VITE_TURNSTILE_SITE_KEY", "ověření Turnstile ve formuláři"],
+  ["challenges.cloudflare.com", "VITE_TURNSTILE_SITE", "ověření Turnstile ve formuláři"],
 ];
 
 const bundle = files
