@@ -64,6 +64,32 @@ for (const file of files) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Naopak: tohle v buildu být musí.
+//
+// Chybějící VITE_ proměnná se nikde neprojeví jako chyba. Vite za ni dosadí
+// undefined, kód se zjednoduší a minifikátor mrtvou větev zahodí. Widget se
+// pak prostě nevykreslí a registrace tiše přestane fungovat pro všechny,
+// protože server bez ověřené výzvy nikoho nepustí. Radši ať spadne build.
+// ---------------------------------------------------------------------------
+const REQUIRED_IN_BUNDLE = [
+  ["challenges.cloudflare.com", "VITE_TURNSTILE_SITE_KEY", "ověření Turnstile ve formuláři"],
+];
+
+const bundle = files
+  .filter((path) => path.endsWith(".js"))
+  .map((path) => readFileSync(path, "utf8"))
+  .join("");
+
+for (const [needle, variable, what] of REQUIRED_IN_BUNDLE) {
+  if (!bundle.includes(needle)) {
+    findings.push(
+      `v buildu chybí ${what}. Skoro jistě není nastavená proměnná ${variable}. ` +
+      `Bez ní se widget nevykreslí a nikdo se nezaregistruje.`,
+    );
+  }
+}
+
 if (findings.length) {
   console.error("\nV klientském buildu je něco, co tam nepatří:\n");
   for (const f of findings) console.error("  " + f);
