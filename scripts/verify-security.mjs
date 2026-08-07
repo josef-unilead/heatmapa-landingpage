@@ -114,6 +114,19 @@ try {
     .from("reservations").select("id", { count: "exact", head: true }).eq("event_id", event.id);
   check("nemůže mazat rezervace", (deleteBefore?.length ?? 0) === 0 && afterDelete > 0,
     `zbylo ${afterDelete} rezervací`);
+
+  const migrations = await anon.from("_migrations").select("name");
+  check("nevidí evidenci migrací", (migrations.data ?? []).length === 0);
+
+  // Starší tabulky formulářů. Zapisovat do nich anonymní klíč smí, tak je
+  // web postavený, ale číst je nesmí, jsou v nich jména a e-maily.
+  console.log("\nStarší tabulky formulářů:\n");
+  for (const table of ["waitlist", "job_applications", "partner_inquiries"]) {
+    const { count } = await service.from(table).select("id", { count: "exact", head: true });
+    const leak = await anon.from(table).select("*");
+    check(`${table} zůstává nečitelná`, (leak.data ?? []).length === 0,
+      `v tabulce je ${count ?? "?"} záznamů, anonymnímu klíči se vrátilo ${(leak.data ?? []).length}`);
+  }
 } finally {
   await service.from("reservations").delete().eq("email", marker);
 }
