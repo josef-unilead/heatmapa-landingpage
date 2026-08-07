@@ -384,10 +384,15 @@ create policy counters_public_read on public.event_counters
 -- Na reservations, signup_attempts a form_tokens záměrně není žádná policy:
 -- se zapnutým RLS a bez policy k nim anonymní klíč nemá přístup.
 
-revoke all on function public.create_reservation from anon, authenticated;
-revoke all on function public.confirm_reservation from anon, authenticated;
-revoke all on function public.refresh_event_counter from anon, authenticated;
-grant execute on function public.event_availability to anon, authenticated;
+-- Odebírá se od PUBLIC, ne jen od anon. Postgres dává EXECUTE roli PUBLIC
+-- automaticky každé nové funkci a odebrání práv jmenovaným rolím ten
+-- implicitní grant nezruší. Podrobněji v migraci 0002.
+revoke all on function public.create_reservation(
+  text, text, text, text, text, text, text, boolean, text, text, text, integer
+) from public, anon, authenticated;
+revoke all on function public.confirm_reservation(text) from public, anon, authenticated;
+revoke all on function public.refresh_event_counter(uuid) from public, anon, authenticated;
+grant execute on function public.event_availability(text) to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Realtime: klient poslouchá jen na počítadle, ne na rezervacích.
