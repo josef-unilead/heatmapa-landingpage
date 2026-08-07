@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/akce/:slug", "destination": "/api/og/:slug" },
-    { "source": "/((?!api/|_vercel/).*)", "destination": "/" }
+    { "source": "/((?!api/|_vercel/|akce/).*)", "destination": "/" }
   ],
   "headers": [
     {
