@@ -23,6 +23,9 @@ function useNextEvent() {
       .from("events")
       .select("slug, title, perex, cover_url, starts_at, venue_name, venue_address")
       .eq("is_published", true)
+      // Zkušební akce a akce, které se nemají vypichovat na titulce, se sem
+      // nedostanou, i když jsou jinak veřejně dostupné na své adrese.
+      .eq("show_on_homepage", true)
       .gte("starts_at", new Date().toISOString())
       .order("starts_at", { ascending: true })
       .limit(1)

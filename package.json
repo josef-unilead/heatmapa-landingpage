@@ -19,7 +19,9 @@
     "dev:api": "node --env-file=.env --watch scripts/dev-api.mjs",
     "test:e2e": "node --env-file=.env tests/e2e/registrace.mjs && node --env-file=.env tests/e2e/flow.mjs",
     "event:on": "node --env-file=.env scripts/toggle-event.mjs what-the-f3ck-is-heatmapa on",
-    "event:off": "node --env-file=.env scripts/toggle-event.mjs what-the-f3ck-is-heatmapa off"
+    "event:off": "node --env-file=.env scripts/toggle-event.mjs what-the-f3ck-is-heatmapa off",
+    "test:event": "node --env-file=.env scripts/seed-test-event.mjs",
+    "test:event:clean": "node --env-file=.env scripts/seed-test-event.mjs --clean"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
