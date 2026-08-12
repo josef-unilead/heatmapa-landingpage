@@ -14,6 +14,7 @@ import LangSwitcher from "./components/LangSwitcher";
 import FormPageLayout from "./components/FormPageLayout";
 import WaitlistForm from "./components/WaitlistForm";
 import JobApplicationForm from "./components/JobApplicationForm";
+import SupportForm from "./components/SupportForm";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import LegalDocs from "./components/LegalDocs";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/waitlist" element={<FormRoute><WaitlistForm /></FormRoute>} />
         <Route path="/partners" element={<FormRoute><JobApplicationForm /></FormRoute>} />
+        <Route path="/support" element={<FormRoute><SupportForm /></FormRoute>} />
         <Route path="/privacy" element={<FormRoute><PrivacyPolicy /></FormRoute>} />
         <Route path="/termsofuse" element={<FormRoute><LegalDocs type="terms" /></FormRoute>} />
         <Route path="/privacypolicy" element={<FormRoute><LegalDocs type="privacy" /></FormRoute>} />

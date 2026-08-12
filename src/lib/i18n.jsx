@@ -104,6 +104,32 @@ const translations = {
     jfErrGeneral: "Něco se pokazilo. Zkuste to znovu.",
     jfAboutPlaceholder: "Řekněte nám pár slov o vaší značce — co děláte, jakou cílovku oslovujete a jakou spolupráci si představujete...",
 
+    // Support Form
+    supTitle1: "Zákaznická",
+    supHighlight: "podpora",
+    supSub: "Napište nám, s čím potřebujete pomoct. Odpovíme vám na zadaný e-mail.",
+    supName: "Jméno",
+    supEmail: "E-mail",
+    supSubject: "Předmět",
+    supMessage: "Zpráva",
+    supNamePlaceholder: "Jan Novák",
+    supEmailPlaceholder: "jan@example.com",
+    supSubjectPlaceholder: "Čeho se dotaz týká?",
+    supMessagePlaceholder: "Popište nám prosím, o co jde. Pokud se to týká konkrétní akce nebo vstupenky, přiložte i odkaz...",
+    supSubmit: "Odeslat dotaz",
+    supSubmitting: "Odesílám...",
+    supSuccess: "Dotaz odeslán!",
+    supSuccessDesc: "Díky. Ozveme se vám na zadaný e-mail, obvykle do dvou pracovních dnů.",
+    supDirect: "Nebo nám napište přímo na",
+    // Chyby u polí
+    supErrRequired: "Tohle pole vyplňte",
+    supErrInvalid: "Tohle nevypadá správně",
+    supErrTooLong: "Tohle je moc dlouhé",
+    // Chyby celého formuláře
+    supErrRate: "Zkoušel jste to moc často. Dejte si chvíli pauzu.",
+    supErrChallenge: "Nepovedlo se ověřit, že jste člověk. Načtěte stránku znovu.",
+    supErrGeneral: "Něco se pokazilo. Zkuste to znovu.",
+
     // GDPR
     gdprConsent: "Souhlasím se",
     gdprLink: "zpracováním osobních údajů",
@@ -146,6 +172,7 @@ const translations = {
     footerCompanyId: "IČO",
     footerTerms: "Obchodní podmínky",
     footerPrivacy: "Zásady zpracování osobních údajů",
+    footerSupport: "Zákaznická podpora",
     legalTermsTitle: "Obchodní podmínky",
     legalPrivacyTitle: "Zásady zpracování osobních údajů",
     legalChoose: "Vyberte jazykovou verzi dokumentu",
@@ -340,6 +367,32 @@ const translations = {
     jfErrGeneral: "Something went wrong. Please try again.",
     jfAboutPlaceholder: "Tell us about your brand including what you offer, who you reach, and what partnership opportunities interest you...",
 
+    // Support Form
+    supTitle1: "Customer",
+    supHighlight: "support",
+    supSub: "Tell us what you need help with and we will reply to the email you provide.",
+    supName: "Name",
+    supEmail: "Email",
+    supSubject: "Subject",
+    supMessage: "Message",
+    supNamePlaceholder: "John Smith",
+    supEmailPlaceholder: "john@example.com",
+    supSubjectPlaceholder: "What is your question about?",
+    supMessagePlaceholder: "Describe what is going on. If it concerns a specific event or ticket, please include the link...",
+    supSubmit: "Send request",
+    supSubmitting: "Submitting...",
+    supSuccess: "Request sent",
+    supSuccessDesc: "Thank you. We will reply to the email you provided, usually within two business days.",
+    supDirect: "Or email us directly at",
+    // Field errors
+    supErrRequired: "Please fill this in",
+    supErrInvalid: "This does not look right",
+    supErrTooLong: "This is too long",
+    // Form-wide errors
+    supErrRate: "Too many attempts. Please wait a moment.",
+    supErrChallenge: "We could not verify you are human. Please reload the page.",
+    supErrGeneral: "Something went wrong. Please try again.",
+
     // GDPR
     gdprConsent: "I agree to the",
     gdprLink: "processing of personal data",
@@ -382,6 +435,7 @@ const translations = {
     footerCompanyId: "Company ID",
     footerTerms: "Terms of Use",
     footerPrivacy: "Privacy Policy",
+    footerSupport: "Customer support",
     legalTermsTitle: "Terms of Use",
     legalPrivacyTitle: "Privacy Policy",
     legalChoose: "Choose your preferred language version",

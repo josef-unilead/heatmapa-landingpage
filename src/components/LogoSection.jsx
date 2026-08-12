@@ -49,9 +49,14 @@ export default function LogoSection() {
             {t.footerTerms}
           </Link>
         </p>
-        <p>
+        <p className="mb-2">
           <Link to="/privacypolicy" className="transition-colors hover:text-orange-400">
             {t.footerPrivacy}
+          </Link>
+        </p>
+        <p>
+          <Link to="/support" className="transition-colors hover:text-orange-400">
+            {t.footerSupport}
           </Link>
         </p>
       </div>

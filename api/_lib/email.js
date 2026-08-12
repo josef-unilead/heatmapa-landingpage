@@ -29,7 +29,9 @@ function esc(value) {
     .replaceAll('"', "&quot;");
 }
 
-function layout({ preheader, heading, body }) {
+const DEFAULT_FOOTER = "Tenhle e-mail ti přišel, protože ses přihlásil na akci.";
+
+function layout({ preheader, heading, body, footer = DEFAULT_FOOTER }) {
   return `<!doctype html>
 <html lang="cs"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -49,7 +51,7 @@ function layout({ preheader, heading, body }) {
     </td></tr>
     <tr><td style="padding:0 28px 28px;">
       <p style="margin:0;font-size:11px;line-height:1.6;color:#9a9aa0;">
-        heatmapa s.r.o. Tenhle e-mail ti přišel, protože ses přihlásil na akci.
+        heatmapa s.r.o. ${esc(footer)}
       </p>
     </td></tr>
   </table>
@@ -231,7 +233,73 @@ export async function sendTicketEmail({
   });
 }
 
-async function send({ to, subject, html, text, attachments }) {
+// ---------------------------------------------------------------------------
+// Dotaz ze zákaznické podpory
+//
+// Tohle je jediný e-mail, který nechodí návštěvníkovi, ale nám. Adresát je
+// SUPPORT_INBOX (výchozí support@heatmapa.com) a replyTo je adresa tazatele,
+// takže se dá odpovědět rovnou z klienta bez kopírování adresy.
+//
+// Text dotazu jde do e-mailu tak, jak ho člověk napsal, jen proženutý esc().
+// Bez toho by stačilo do zprávy napsat HTML a rozbít nám šablonu.
+// ---------------------------------------------------------------------------
+export function supportInbox() {
+  return process.env.SUPPORT_INBOX || "support@heatmapa.com";
+}
+
+export async function sendSupportEmail({ name, email, subject, message, lang = "cs", createdAt }) {
+  const when = new Date(createdAt ?? Date.now()).toLocaleString("cs-CZ", {
+    timeZone: "Europe/Prague",
+  });
+
+  const row = (label, value) =>
+    `<tr><td style="padding:6px 0;font-size:13px;color:#8a8a90;width:88px;vertical-align:top;">${esc(label)}</td>
+         <td style="padding:6px 0;font-size:14px;color:#111;font-weight:600;">${value}</td></tr>`;
+
+  const html = layout({
+    preheader: `${subject} — ${name}`,
+    heading: "Nový dotaz ze zákaznické podpory",
+    footer: "Tenhle e-mail přišel z formuláře na /support.",
+    body: `
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 22px;">
+        ${row("Od", esc(name))}
+        ${row("E-mail", `<a href="mailto:${esc(email)}" style="color:#111;">${esc(email)}</a>`)}
+        ${row("Předmět", esc(subject))}
+        ${row("Jazyk", esc(lang))}
+        ${row("Přišlo", esc(when))}
+      </table>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr><td style="background:#f7f7f9;border:1px solid #e6e6ea;border-radius:16px;padding:18px 20px;">
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#333;white-space:pre-wrap;">${esc(message)}</p>
+        </td></tr>
+      </table>
+      <p style="margin:22px 0 0;font-size:13px;line-height:1.6;color:#777;">
+        Odpověď na tenhle e-mail půjde přímo tazateli.
+      </p>`,
+  });
+
+  const text = [
+    "Nový dotaz ze zákaznické podpory",
+    "",
+    `Od: ${name}`,
+    `E-mail: ${email}`,
+    `Předmět: ${subject}`,
+    `Jazyk: ${lang}`,
+    `Přišlo: ${when}`,
+    "",
+    message,
+  ].join("\n");
+
+  return send({
+    to: supportInbox(),
+    subject: `[podpora] ${subject}`,
+    html,
+    text,
+    replyTo: email,
+  });
+}
+
+async function send({ to, subject, html, text, attachments, replyTo }) {
   const { data, error } = await resend().emails.send({
     from: from(),
     to: [to],
@@ -239,6 +307,7 @@ async function send({ to, subject, html, text, attachments }) {
     html,
     text,
     ...(attachments ? { attachments } : {}),
+    ...(replyTo ? { replyTo } : {}),
   });
   if (error) throw new Error(`Resend odmítl e-mail: ${error.message || JSON.stringify(error)}`);
   return data;

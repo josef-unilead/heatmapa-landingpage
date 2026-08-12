@@ -118,6 +118,21 @@ try {
   const migrations = await anon.from("_migrations").select("name");
   check("nevidí evidenci migrací", (migrations.data ?? []).length === 0);
 
+  // Dotazy na podporu chodí přes /api/support, ne přímo do Supabase, takže na
+  // tabulce není žádná policy a anonymní klíč do ní nesmí ani zapsat.
+  const supportLeak = await anon.from("support_requests").select("*");
+  check("nevidí dotazy na podporu", (supportLeak.data ?? []).length === 0);
+
+  const { count: supportBefore } = await service
+    .from("support_requests").select("id", { count: "exact", head: true });
+  await anon.from("support_requests").insert({
+    name: "Bot", email: "bot@example.com", subject: "x", message: "x",
+  });
+  const { count: supportAfter } = await service
+    .from("support_requests").select("id", { count: "exact", head: true });
+  check("nemůže zapisovat dotazy na podporu", supportBefore === supportAfter,
+    `${supportBefore} → ${supportAfter}`);
+
   // Starší tabulky formulářů. Zapisovat do nich anonymní klíč smí, tak je
   // web postavený, ale číst je nesmí, jsou v nich jména a e-maily.
   console.log("\nStarší tabulky formulářů:\n");
