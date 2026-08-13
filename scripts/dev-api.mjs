@@ -30,14 +30,19 @@ function collectRoutes(dir = API_DIR) {
 
     const url = "/api/" + relative(API_DIR, full).replace(/\.js$/, "").replaceAll("\\", "/");
     const params = [];
-    const pattern = url.replace(/\[([^\]]+)\]/g, (_, name) => {
-      params.push(name);
-      return "([^/]+)";
+    // [slug] chytá jeden úsek cesty, [...path] všechny zbývající. Vercel to
+    // druhé předává jako pole úseků, tady to musí být stejné, jinak by se
+    // kód choval lokálně jinak než na nasazení.
+    const pattern = url.replace(/\[(\.\.\.)?([^\]]+)\]/g, (_, spread, name) => {
+      params.push({ name, spread: Boolean(spread) });
+      return spread ? "(.*)" : "([^/]+)";
     });
     routes.push({ file: full, params, regex: new RegExp(`^${pattern}$`) });
   }
-  // Statické cesty mají přednost před dynamickými.
-  return routes.sort((a, b) => a.params.length - b.params.length);
+  // Statické cesty mají přednost před dynamickými a catch-all jde nakonec,
+  // jinak by "(.*)" spolklo i to, co patří konkrétnějšímu souboru.
+  const vaha = (r) => (r.params.some((p) => p.spread) ? 2 : r.params.length ? 1 : 0);
+  return routes.sort((a, b) => vaha(a) - vaha(b));
 }
 
 const routes = collectRoutes();
@@ -68,7 +73,10 @@ const server = createServer(async (req, res) => {
   }
 
   const query = Object.fromEntries(url.searchParams);
-  match.r.params.forEach((name, i) => (query[name] = decodeURIComponent(match.m[i + 1])));
+  match.r.params.forEach(({ name, spread }, i) => {
+    const raw = decodeURIComponent(match.m[i + 1] ?? "");
+    query[name] = spread ? raw.split("/").filter(Boolean) : raw;
+  });
 
   req.query = query;
   if (req.method !== "GET" && req.method !== "HEAD") req.body = await readJsonBody(req);

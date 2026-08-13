@@ -26,6 +26,9 @@ import ConfirmPage from "./components/event/ConfirmPage";
 // nepotřebujeme. Načte se až když na ni někdo přijde.
 const TicketPage = lazy(() => import("./components/event/TicketPage"));
 
+// Administraci otevře pár lidí, nemá smysl ji tahat do bundlu všem ostatním.
+const AdminPage = lazy(() => import("./components/admin/AdminPage"));
+
 function LandingPage() {
   return (
     <>
@@ -61,6 +64,16 @@ export default function App() {
         {/* Guestlist na akce */}
         <Route path="/akce/:slug" element={<FormRoute><EventPage /></FormRoute>} />
         <Route path="/rezervace/potvrdit" element={<FormRoute><ConfirmPage /></FormRoute>} />
+        <Route
+          path="/admin"
+          element={
+            <FormRoute>
+              <Suspense fallback={<div className="min-h-[60vh]" />}>
+                <AdminPage />
+              </Suspense>
+            </FormRoute>
+          }
+        />
         <Route
           path="/t/:token"
           element={
