@@ -23,7 +23,14 @@ if (process.argv.includes("--clean")) {
   if (event) {
     const { count } = await db
       .from("reservations").select("id", { count: "exact", head: true }).eq("event_id", event.id);
-    await db.from("events").delete().eq("id", event.id); // rezervace padají s ní
+
+    // Chybu je potřeba opravdu přečíst. Bez toho skript hlásil úspěch,
+    // i když mazání spadlo na cizí klíč, a člověk zůstal s pocitem uklizeno.
+    const { error } = await db.from("events").delete().eq("id", event.id); // rezervace padají s ní
+    if (error) {
+      console.error("Smazání selhalo:", error.message);
+      process.exit(1);
+    }
     console.log(`Zkušební akce smazána i s ${count ?? 0} rezervacemi.`);
   } else {
     console.log("Zkušební akce v databázi není.");
