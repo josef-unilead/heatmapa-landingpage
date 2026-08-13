@@ -27,20 +27,20 @@ export const adminApi = {
 
   events: () => request("events"),
   saveEvent: (event) => request("events", { method: "POST", body: JSON.stringify(event) }),
-  deleteEvent: (id) => request("events/delete", { method: "POST", body: JSON.stringify({ id }) }),
+  deleteEvent: (id) => request("event-delete", { method: "POST", body: JSON.stringify({ id }) }),
   uploadCover: (filename, dataUrl) =>
     request("upload", { method: "POST", body: JSON.stringify({ filename, dataUrl }) }),
 
   reservations: (slug) => request(`reservations?event=${encodeURIComponent(slug)}`),
   reservationAction: (id, action) =>
-    request("reservations/action", { method: "POST", body: JSON.stringify({ id, action }) }),
+    request("reservation-action", { method: "POST", body: JSON.stringify({ id, action }) }),
   stats: (slug) => request(`stats?event=${encodeURIComponent(slug)}`),
 
   staffCodes: (slug) => request(`staff-codes?event=${encodeURIComponent(slug)}`),
   createStaffCode: (event, label) =>
     request("staff-codes", { method: "POST", body: JSON.stringify({ event, label }) }),
   revokeStaffCode: (id) =>
-    request("staff-codes/revoke", { method: "POST", body: JSON.stringify({ id }) }),
+    request("staff-code-revoke", { method: "POST", body: JSON.stringify({ id }) }),
 
   // Export nejde přes fetch, prohlížeč si soubor stáhne sám.
   exportUrl: (slug) => `/api/admin/export?event=${encodeURIComponent(slug)}`,

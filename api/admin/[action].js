@@ -6,21 +6,24 @@
 // Všechno je v jednom souboru, protože Vercel na free tarifu povoluje dvanáct
 // serverových funkcí na nasazení a scanner ve čtvrté fázi si vezme svoje.
 //
-// Cesty:
-//   POST   login                 { password }
+// Cesty jsou schválně jednoúrovňové. Vercel u projektů, které nejsou
+// Next.js, zachytávací cestu [...path] v /api nesměruje a všechno pod ní
+// vrací 404, kdežto jeden dynamický úsek [action] funguje.
+//
+//   POST   login               { password }
 //   POST   logout
 //   GET    session
 //   GET    events
-//   POST   events                { ...akce }         založí nebo přepíše
-//   POST   events/delete         { id }
-//   POST   upload                { filename, dataUrl }
-//   GET    reservations?event=   výpis registrací
-//   POST   reservations/action   { id, action: resend | cancel | revoke }
-//   GET    export?event=         CSV
-//   GET    stats?event=          registrace v čase
+//   POST   events              { ...akce }   založí nebo přepíše
+//   POST   event-delete        { id }
+//   POST   upload              { dataUrl }
+//   GET    reservations?event=
+//   POST   reservation-action  { id, action: resend | cancel | revoke }
+//   GET    export?event=       CSV
+//   GET    stats?event=
 //   GET    staff-codes?event=
-//   POST   staff-codes           { event, label }
-//   POST   staff-codes/revoke    { id }
+//   POST   staff-codes         { event, label }
+//   POST   staff-code-revoke   { id }
 
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { db, rpc } from "../_lib/db.js";
@@ -419,25 +422,24 @@ const ROUTES = {
 
   "GET events": listEvents,
   "POST events": saveEvent,
-  "POST events/delete": deleteEvent,
+  "POST event-delete": deleteEvent,
   "POST upload": uploadCover,
 
   "GET reservations": listReservations,
-  "POST reservations/action": reservationAction,
+  "POST reservation-action": reservationAction,
   "GET export": exportCsv,
   "GET stats": stats,
 
   "GET staff-codes": listStaffCodes,
   "POST staff-codes": createStaffCode,
-  "POST staff-codes/revoke": revokeStaffCode,
+  "POST staff-code-revoke": revokeStaffCode,
 };
 
 // Bez přihlášení projde jen přihlašování a dotaz na stav session.
 const PUBLIC_ROUTES = new Set(["POST login", "GET session", "POST logout"]);
 
 async function handler(req, res) {
-  const segments = Array.isArray(req.query.path) ? req.query.path : [req.query.path];
-  const key = `${req.method} ${segments.filter(Boolean).join("/")}`;
+  const key = `${req.method} ${req.query.action ?? ""}`;
   const route = ROUTES[key];
 
   if (!route) return json(res, 404, { ok: false, error: "not_found" });
