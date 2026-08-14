@@ -88,10 +88,6 @@ export default function EventSection() {
   return (
     <section id="akce" className="bg-black px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto w-full max-w-5xl">
-        <p className="mb-3 text-xs font-medium tracking-wide text-orange-400/80 uppercase">
-          {t.ev.sectionLabel}
-        </p>
-
         <Link
           to={`/akce/${event.slug}`}
           className="group glass glass-card no-hover-card block overflow-hidden rounded-[32px] border border-white/10 bg-black/20 shadow-[0_30px_80px_rgba(0,0,0,0.35)] transition-colors duration-500 ease-out hover:border-white/20"

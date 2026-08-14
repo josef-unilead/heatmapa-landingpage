@@ -180,7 +180,6 @@ const translations = {
 
     // Guestlist na akce
     ev: {
-      sectionLabel: "Nejbližší akce",
       reserve: "Rezervovat místo",
       spotsLeft: "Zbývá {n} míst",
       spotsLeft1: "Zbývá poslední místo",
@@ -443,7 +442,6 @@ const translations = {
 
     // Guestlist
     ev: {
-      sectionLabel: "Upcoming event",
       reserve: "Reserve a spot",
       spotsLeft: "{n} spots left",
       spotsLeft1: "Last spot left",
