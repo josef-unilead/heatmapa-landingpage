@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 // Pozor: /react, ne /next – tohle je Vite SPA. Komponenta si sama odchytává
 // změny historie, takže se počítají i přechody mezi routami react-routeru.
 import { Analytics } from "@vercel/analytics/react";
@@ -29,6 +29,10 @@ const TicketPage = lazy(() => import("./components/event/TicketPage"));
 // Administraci otevře pár lidí, nemá smysl ji tahat do bundlu všem ostatním.
 const AdminPage = lazy(() => import("./components/admin/AdminPage"));
 
+// Čtečka si nese knihovnu na dekódování QR a používá ji hrstka lidí
+// u dveří. Načte se až když na ni někdo přijde.
+const ScannerPage = lazy(() => import("./components/scanner/ScannerPage"));
+
 function LandingPage() {
   return (
     <>
@@ -48,10 +52,17 @@ function FormRoute({ children }) {
   return <FormPageLayout>{children}</FormPageLayout>;
 }
 
+// Administrace i čtečka jsou interní nástroje jen v češtině. Přepínač jazyka
+// by na nich nic nepřepnul, jen by překážel a mátl.
+const BEZ_PREPINACE = ["/admin", "/scanner"];
+
 export default function App() {
+  const { pathname } = useLocation();
+  const interniNastroj = BEZ_PREPINACE.some((cesta) => pathname.startsWith(cesta));
+
   return (
     <ErrorBoundary>
-      <LangSwitcher />
+      {!interniNastroj && <LangSwitcher />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/waitlist" element={<FormRoute><WaitlistForm /></FormRoute>} />
@@ -70,6 +81,16 @@ export default function App() {
             <FormRoute>
               <Suspense fallback={<div className="min-h-[60vh]" />}>
                 <AdminPage />
+              </Suspense>
+            </FormRoute>
+          }
+        />
+        <Route
+          path="/scanner"
+          element={
+            <FormRoute>
+              <Suspense fallback={<div className="min-h-[60vh]" />}>
+                <ScannerPage />
               </Suspense>
             </FormRoute>
           }

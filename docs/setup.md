@@ -25,6 +25,7 @@ nepotvrzená rezervace po 30 minutách místo uvolní.
 | `/rezervace/potvrdit?t=…` | přistání z potvrzovacího e-mailu |
 | `/t/<token>` | webová vstupenka, funguje i offline |
 | `/admin` | administrace, chráněná heslem |
+| `/scanner` | čtečka vstupenek u vchodu, přihlášení kódem obsluhy |
 
 ---
 
@@ -269,7 +270,45 @@ V rozhraní Vercelu je vidět v sekci Cron Jobs.
 
 ---
 
-## 10. Osobní údaje
+## 10. Čtečka u vchodu
+
+Běží na `/scanner`, otevře se v mobilním prohlížeči a nic se neinstaluje.
+
+**Před akcí:**
+
+1. V administraci vytvoř **každému člověku z obsluhy vlastní kód** (záložka
+   Kódy obsluhy). Podle něj je pak v logu vidět, kdo koho pustil, a ztracený
+   kód jde zneplatnit bez dopadu na ostatní.
+2. Obsluha otevře `/scanner`, zadá kód a povolí kameru. Přihlášení platí
+   12 hodin.
+3. **Ještě se signálem** nech čtečku stáhnout seznam vstupenek. Pozná se to
+   podle údaje „Odbaveno 0 z 100" ve stavovém pruhu. Bez něj čtečka bez sítě
+   nic neodbaví.
+
+**U dveří:**
+
+Obsluha namíří na QR kód na telefonu návštěvníka. Čte se sám. Obrazovka
+zesvítí zeleně se jménem a pípne, nebo červeně s důvodem a zabzučí jinak.
+Na třicet sekund je k dispozici tlačítko Vzít zpět pro případ omylu.
+
+Bez signálu čtečka rozhoduje ze staženého seznamu a skeny si ukládá. Jakmile
+se síť vrátí, sama je odešle. Ve stavovém pruhu je vidět, kolik jich čeká.
+
+Kdo vstupenku nemá, dá se najít v záložce Hledat podle jména. To ale
+potřebuje signál.
+
+**Na co si dát pozor:**
+
+- **Vyzkoušej to na telefonech, které u dveří budou**, ne na svém. Nejčastější
+  potíž není kód, ale zamítnuté povolení kamery nebo neaktualizovaný prohlížeč.
+- Odhlášení smaže neodeslané skeny, čtečka se proto ptá. Než někoho odhlásíš,
+  počkej, až fronta klesne na nulu.
+- Svítilnu z prohlížeče na iPhonu zapnout nejde. Vstupenky se ukazují na
+  rozsvíceném displeji, takže to nevadí.
+
+---
+
+## 11. Osobní údaje
 
 Sbírá se jen jméno, příjmení, e-mail a telefon. IP adresa se ukládá výhradně
 jako jednosměrný otisk se solí, aby šlo počítat limity, ale nešlo z ní zpětně
@@ -284,7 +323,7 @@ s.r.o. Souhlas s marketingem je zvlášť a nepovinný.
 
 ---
 
-## 11. Když se něco pokazí
+## 12. Když se něco pokazí
 
 | Příznak | Kde hledat |
 |---|---|
@@ -294,6 +333,8 @@ s.r.o. Souhlas s marketingem je zvlášť a nepovinný.
 | Administrace vrací 404 | serverová funkce se nenasadila, koukni na build log ve Vercelu |
 | „Could not find the table … in the schema cache" | chybí migrace, nebo je potřeba `notify pgrst, 'reload schema'` |
 | Počet volných míst se nemění | Supabase → Database → Publications, je tam `event_counters`? |
+| Čtečka nevidí kameru | povolení v prohlížeči, a musí to být HTTPS adresa |
+| Čtečka hlásí „Kód neplatí" | kód je zneplatněný, nebo patří k jiné akci |
 | Build spadl na „v buildu chybí ověření Turnstile" | není nastavená `VITE_TURNSTILE_SITE` |
 
 ---
@@ -320,8 +361,9 @@ Projdi den předem, ne hodinu.
 **U vchodu**
 
 - [ ] Každý člověk z obsluhy má **vlastní** přístupový kód (`/admin` → Kódy obsluhy)
-- [ ] Kódy jsou vyzkoušené ve čtečce, ne jen vytvořené
-- [ ] Čtečka má stažený offline seznam
+- [ ] Každý telefon má na `/scanner` přihlášeno a **povolenou kameru**
+- [ ] Na každém telefonu proběhl zkušební sken skutečné vstupenky
+- [ ] Čtečka má stažený seznam („Odbaveno 0 z …" ve stavovém pruhu)
 - [ ] Obsluha ví, co dělat u `already_used`: nepouštět a ukázat čas a jméno
 - [ ] Telefony jsou nabité a je po ruce powerbanka
 - [ ] Někdo má otevřenou administraci pro ruční dohledání

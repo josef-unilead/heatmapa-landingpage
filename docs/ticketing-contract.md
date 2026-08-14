@@ -5,6 +5,11 @@ nemusíš, tenhle dokument je úplný.
 
 Základ adresy: `https://www.heatmapa.com/api/scanner`
 
+> **Hotová čtečka už existuje** a běží na `/scanner`. Otevře se v mobilním
+> prohlížeči, nic se neinstaluje. Tenhle dokument je pro případ, že bys chtěl
+> postavit vlastní, třeba nativní aplikaci: rozhraní zůstává stejné a obě
+> můžou běžet vedle sebe.
+
 ---
 
 ## 1. Jak vstupenka vypadá

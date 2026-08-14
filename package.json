@@ -23,7 +23,9 @@
     "test:event": "node --env-file=.env scripts/seed-test-event.mjs",
     "test:event:clean": "node --env-file=.env scripts/seed-test-event.mjs --clean",
     "test:admin": "node --env-file=.env tests/e2e/admin.mjs",
-    "test:scanner": "node --env-file=.env tests/e2e/scanner.mjs"
+    "test:scanner": "node --env-file=.env tests/e2e/scanner.mjs",
+    "test:scanner:ui": "node --env-file=.env tests/e2e/scanner-ui.mjs",
+    "test:scanner:offline": "node --env-file=.env tests/e2e/scanner-offline.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
@@ -32,6 +34,7 @@
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jsqr": "^1.4.0",
     "lucide-react": "^1.0.0",
     "mapbox-gl": "^3.24.1",
     "qrcode": "^1.5.4",
