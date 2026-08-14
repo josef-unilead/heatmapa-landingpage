@@ -12,7 +12,7 @@
     "keys": "node scripts/generate-keys.mjs",
     "db:migrate": "node --env-file=.env scripts/db-migrate.mjs",
     "db:seed": "node --env-file=.env scripts/seed-event.mjs",
-    "test:db": "node --test --test-timeout=600000 \"tests/capacity.test.js\"",
+    "test:db": "node --test --test-timeout=600000 \"tests/capacity.test.js\" \"tests/checkin.test.js\"",
     "test:all": "npm test && npm run test:db",
     "verify:security": "node --env-file=.env scripts/verify-security.mjs",
     "test:emails": "node --env-file=.env scripts/test-emails.mjs",
@@ -22,7 +22,8 @@
     "event:off": "node --env-file=.env scripts/toggle-event.mjs what-the-f3ck-is-heatmapa off",
     "test:event": "node --env-file=.env scripts/seed-test-event.mjs",
     "test:event:clean": "node --env-file=.env scripts/seed-test-event.mjs --clean",
-    "test:admin": "node --env-file=.env tests/e2e/admin.mjs"
+    "test:admin": "node --env-file=.env tests/e2e/admin.mjs",
+    "test:scanner": "node --env-file=.env tests/e2e/scanner.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

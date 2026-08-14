@@ -25,12 +25,23 @@ function check(popis, prosloTest, detail = "") {
 }
 
 // Připravíme skutečnou rezervaci, na které se dá ověřit, že ji anon nevidí.
-const { data: event } = await service
+//
+// Publikovaná akce se hodí, protože se na ní dá ověřit i to, co anon vidět
+// smí. Když ale žádná není, třeba když je web zrovna stažený, kontrola musí
+// jít pustit stejně: zbytek je důležitější a nezávisí na tom.
+const { data: publikovana } = await service
   .from("events").select("id, slug").eq("is_published", true).limit(1).maybeSingle();
+const { data: jakakoli } = await service
+  .from("events").select("id, slug").limit(1).maybeSingle();
+
+const event = publikovana ?? jakakoli;
 
 if (!event) {
-  console.error("V databázi není žádná publikovaná akce. Pusť nejdřív npm run db:seed.");
+  console.error("V databázi není žádná akce. Pusť nejdřív npm run db:seed.");
   process.exit(1);
+}
+if (!publikovana) {
+  console.log("\n(žádná akce není publikovaná, kontrola veřejného čtení se přeskočí)");
 }
 
 const marker = `verify-${Date.now()}@example.com`;
@@ -62,15 +73,21 @@ try {
   const tokens = await anon.from("form_tokens").select("jti");
   check("nonce formulářů zůstávají skryté", (tokens.data ?? []).length === 0);
 
-  const events = await anon.from("events").select("slug");
-  check("publikované akce jsou čitelné", (events.data ?? []).length > 0);
+  if (publikovana) {
+    const events = await anon.from("events").select("slug");
+    check("publikované akce jsou čitelné", (events.data ?? []).length > 0);
 
-  const counters = await anon.from("event_counters").select("taken");
-  check("počítadlo je čitelné", (counters.data ?? []).length > 0);
+    const counters = await anon.from("event_counters").select("taken");
+    check("počítadlo je čitelné", (counters.data ?? []).length > 0);
 
-  const availability = await anon.rpc("event_availability", { p_slug: event.slug });
-  check("volná místa jdou zjistit", !availability.error,
-    availability.data ? JSON.stringify(availability.data) : availability.error?.message);
+    const availability = await anon.rpc("event_availability", { p_slug: publikovana.slug });
+    check("volná místa jdou zjistit", !availability.error,
+      availability.data ? JSON.stringify(availability.data) : availability.error?.message);
+  } else {
+    // Nepublikovaná akce nesmí být vidět ani ona sama.
+    const events = await anon.from("events").select("slug");
+    check("nepublikovaná akce zůstává skrytá", (events.data ?? []).length === 0);
+  }
 
   console.log("\nCo anonymní klíč nesmí:\n");
 
@@ -117,6 +134,12 @@ try {
 
   const migrations = await anon.from("_migrations").select("name");
   check("nevidí evidenci migrací", (migrations.data ?? []).length === 0);
+
+  const kody = await anon.from("staff_codes").select("code_hash");
+  check("nevidí přístupové kódy obsluhy", (kody.data ?? []).length === 0);
+
+  const log = await anon.from("checkin_log").select("id");
+  check("nevidí log odbavení", (log.data ?? []).length === 0);
 
   // Dotazy na podporu chodí přes /api/support, ne přímo do Supabase, takže na
   // tabulce není žádná policy a anonymní klíč do ní nesmí ani zapsat.

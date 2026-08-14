@@ -9,7 +9,7 @@
 
 import { test, describe, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, rmSync } from "node:fs";
+import { readdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import EmbeddedPostgres from "embedded-postgres";
@@ -44,10 +44,18 @@ before(async () => {
   // Role, které na Supabase existují a migrace se na ně odkazuje.
   await sql`create role anon`;
   await sql`create role authenticated`;
+  await sql`create role service_role`;
 
-  await sql.unsafe(
-    readFileSync(join(ROOT, "supabase", "migrations", "0001_guestlist.sql"), "utf8"),
-  );
+  // Evidenci migrací zakládá migrační skript, ne migrace samotná.
+  await sql`create table if not exists public._migrations (
+    name text primary key, applied_at timestamptz not null default now())`;
+
+  // Celý řetězec migrací, ne jen ta první: kromě chování se tím ověří i to,
+  // že na sebe migrace navazují a dají se pustit na prázdnou databázi.
+  const dir = join(ROOT, "supabase", "migrations");
+  for (const file of readdirSync(dir).filter((f) => f.endsWith(".sql")).sort()) {
+    await sql.unsafe(readFileSync(join(dir, file), "utf8"));
+  }
 }, { timeout: 300000 });
 
 after(async () => {
