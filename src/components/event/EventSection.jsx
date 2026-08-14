@@ -94,8 +94,11 @@ export default function EventSection() {
         >
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
             {/* Plakát se zobrazuje celý, ne oříznutý. Bývá na něm název akce
-                přes celou plochu a ořez by ho ustřihl. */}
-            <div className="relative flex items-center justify-center bg-neutral-950 p-4 md:p-6">
+                přes celou plochu a ořez by ho ustřihl.
+
+                Žádné vlastní pozadí: plocha za plakátem musí mít stejnou
+                barvu jako zbytek kartičky, jinak je uprostřed vidět předěl. */}
+            <div className="relative flex items-center justify-center p-4 md:p-6">
               {event.cover_url && (
                 <img
                   src={event.cover_url}

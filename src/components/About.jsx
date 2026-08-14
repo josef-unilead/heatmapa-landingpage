@@ -12,12 +12,10 @@ export default function About() {
   const { t } = useLang();
 
   return (
-    <section id="about" className="relative flex min-h-svh items-center overflow-hidden border-y border-white/5 bg-[#0d0a07] px-4 py-16 md:min-h-0 md:px-6 md:py-24">
-      {/* Soft orange glow from the top to set the section apart from the black page */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(249,115,22,0.09),transparent_70%)]"
-      />
+    <section id="about" className="relative flex min-h-svh items-center overflow-hidden bg-black px-4 py-16 md:min-h-0 md:px-6 md:py-24">
+      {/* Tady bývala oranžová záře, která měla sekci odlišit od zbytku stránky.
+          Právě kvůli ní tu ale vznikala viditelná hrana: záře začínala přesně
+          na okraji sekce, takže to působilo jako pruh s jiným pozadím. */}
 
       <div className="relative mx-auto w-full max-w-5xl">
         <div className="text-center">
