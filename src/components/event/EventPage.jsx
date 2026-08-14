@@ -75,10 +75,12 @@ export default function EventPage() {
     <section className="px-4 pb-16 md:px-6 md:pb-24">
       <div className="mx-auto w-full max-w-3xl">
         {/* Cover je plakát, na kterém bývá text přes celou plochu. Ořezem by
-            se ustřihl název akce, proto se zobrazuje celý a jen se vycentruje
-            na tmavém podkladu. */}
+            se ustřihl název akce, proto se zobrazuje celý a jen se vycentruje.
+
+            Žádná kartička kolem: plakát si nese vlastní pozadí i rámování,
+            takže rámeček s podkladem navíc jen dělal rám kolem rámu. */}
         {event.cover_url && (
-          <div className="mb-8 flex justify-center overflow-hidden rounded-[32px] border border-white/10 bg-neutral-950 p-3">
+          <div className="mb-8 flex justify-center">
             <img
               src={event.cover_url}
               alt=""
