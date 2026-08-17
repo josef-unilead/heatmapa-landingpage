@@ -42,20 +42,21 @@ function loadScript() {
  * @param onExpire zavolá se, když token vyprší a je potřeba nový
  * @param resetKey změna hodnoty widget resetuje (po neúspěšném odeslání)
  */
-export default function Turnstile({ onToken, onExpire, resetKey }) {
+export default function Turnstile({ onToken, onExpire, onError, resetKey }) {
   const holder = useRef(null);
   const widgetId = useRef(null);
   // Callbacky se drží v ref, aby jejich změna mezi rendery widget nerušila
   // a nevytvářela ho znovu. Zapisuje se do něj v efektu, ne během vykreslení.
-  const handlers = useRef({ onToken, onExpire });
+  const handlers = useRef({ onToken, onExpire, onError });
 
   useEffect(() => {
-    handlers.current = { onToken, onExpire };
-  }, [onToken, onExpire]);
+    handlers.current = { onToken, onExpire, onError };
+  }, [onToken, onExpire, onError]);
 
   useEffect(() => {
     if (!SITE_KEY) {
       console.warn("Chybí VITE_TURNSTILE_SITE, ověření se nevykreslí.");
+      handlers.current.onError?.();
       return;
     }
 
@@ -70,10 +71,15 @@ export default function Turnstile({ onToken, onExpire, resetKey }) {
           size: "flexible",
           callback: (token) => handlers.current.onToken?.(token),
           "expired-callback": () => handlers.current.onExpire?.(),
-          "error-callback": () => handlers.current.onExpire?.(),
+          // Chyba není totéž co vypršení: token nevznikne vůbec a formulář
+          // musí člověku říct, ať načte stránku, ne ho nechat čekat.
+          "error-callback": () => handlers.current.onError?.(),
         });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        handlers.current.onError?.();
+      });
 
     return () => {
       cancelled = true;

@@ -6,7 +6,7 @@
 //
 // Pole i tlačítka jsou stávající komponenty webu, žádné vlastní styly.
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Loader2, Mail, User, Phone, AtSign } from "lucide-react";
 import { Button } from "../ui/button";
@@ -23,24 +23,42 @@ const EMPTY = {
   consentGdpr: false, consentMarketing: false,
 };
 
-/** Chybové kódy ze sdílené validace na věty v aktuálním jazyce. */
-function errorText(t, code) {
+/**
+ * Chybové kódy ze sdílené validace na věty v aktuálním jazyce.
+ *
+ * U nevyplněného pole se pojmenuje konkrétně ("Chybí e-mail"), ne obecně.
+ * Když člověk vidí pod třemi poli třikrát totéž, musí očima hledat, které
+ * z nich vlastně chybí.
+ */
+function errorText(t, code, pole) {
   // Bez kódu není co hlásit. Kdyby se tady spadlo do výchozí větve, svítila
   // by hláška i u správně vyplněného pole.
   if (!code) return null;
   switch (code) {
-    case "required": return t.ev.errRequired;
+    case "required": return t.ev.errChybi?.[pole] ?? t.ev.errRequired;
     case "tooLong": return t.ev.errTooLong;
     case "disposable": return t.ev.errDisposable;
+    case "duplicate":
+      return pole === "phone" ? t.ev.errDuplicatePhone : t.ev.errDuplicateEmail;
     default: return t.ev.errInvalid;
   }
 }
 
-/** Zaškrtávátko ve stejné podobě jako jinde na webu, včetně fajfky. */
+/**
+ * Zaškrtávátko souhlasu.
+ *
+ * Samotný čtvereček má 20 px, což je na prst málo. Apple i Google doporučují
+ * aspoň 44 px, tak je kolem něj neviditelná plocha, která to doplní. Vizuálně
+ * se nic nemění, jen se to dá trefit.
+ *
+ * Odkaz uvnitř textu zastavuje probublání: bez toho by ťuknutí na "Zásady
+ * zpracování osobních údajů" zároveň přehodilo zaškrtávátko, protože je celý
+ * text uvnitř labelu.
+ */
 function Consent({ checked, onChange, onBlur, children }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3">
-      <span className="relative mt-0.5 flex shrink-0 items-center justify-center">
+    <label className="-my-2 flex cursor-pointer items-start gap-1 py-2">
+      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center">
         <input
           type="checkbox"
           checked={checked}
@@ -57,7 +75,15 @@ function Consent({ checked, onChange, onBlur, children }) {
                 strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </span>
-      <span className="text-xs leading-relaxed text-neutral-500">{children}</span>
+      <span
+        className="min-h-11 flex-1 py-3 text-xs leading-relaxed text-neutral-500"
+        onClickCapture={(e) => {
+          // Ťuknutí na odkaz má odkaz otevřít, ne přehodit souhlas.
+          if (e.target.closest("a")) e.stopPropagation();
+        }}
+      >
+        {children}
+      </span>
     </label>
   );
 }
@@ -80,7 +106,7 @@ function Field({ label, icon: Icon, error, children }) {
 // ---------------------------------------------------------------------------
 // Obrazovka po odeslání
 // ---------------------------------------------------------------------------
-function CheckEmail({ slug, email }) {
+function CheckEmail({ slug, email, emailFailed }) {
   const { t } = useLang();
   const [secondsLeft, setSecondsLeft] = useState(RESEND_COOLDOWN_S);
   const [sentCount, setSentCount] = useState(0);
@@ -121,6 +147,12 @@ function CheckEmail({ slug, email }) {
       </p>
       <p className="mb-6 text-xs text-neutral-600">{t.ev.checkSpam}</p>
 
+      {emailFailed && (
+        <p className="mx-auto mb-5 max-w-sm rounded-2xl border border-orange-500/25 bg-orange-500/5 p-3 text-xs leading-relaxed text-orange-200/90">
+          {t.ev.checkFailed}
+        </p>
+      )}
+
       {exhausted ? (
         <p className="text-xs text-neutral-500">{t.ev.resendLimit}</p>
       ) : (
@@ -150,12 +182,17 @@ export default function ReservationForm({ slug, onReserved }) {
   const [touched, setTouched] = useState({});
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
+  // Seznam povinných polí, která zůstala prázdná. Ukazuje se pod formulářem,
+  // aby člověk na mobilu nemusel rolovat nahoru a hledat, co mu chybí.
+  const [chybejici, setChybejici] = useState([]);
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
+  const [emailFailed, setEmailFailed] = useState(false);
 
   const [formToken, setFormToken] = useState(null);
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [turnstileReset, setTurnstileReset] = useState(0);
+  const [turnstileChyba, setTurnstileChyba] = useState(false);
 
   // Honeypot. Pro člověka je neviditelný, vyplnit ho může jen něco, co
   // poslušně vyplňuje všechna pole v HTML.
@@ -163,19 +200,21 @@ export default function ReservationForm({ slug, onReserved }) {
 
   // Nonce se bere ze serveru, protože nese čas vykreslení formuláře. Podle ní
   // server pozná, jestli odeslání přišlo dřív než za 2,5 sekundy.
-  useEffect(() => {
-    let active = true;
+  const obnovNonce = useCallback(() => {
     fetch(`/api/events/${slug}`)
       .then((r) => r.json())
-      .then((data) => active && setFormToken(data.formToken ?? null))
+      .then((data) => setFormToken(data.formToken ?? null))
       .catch(() => {});
-    return () => {
-      active = false;
-    };
   }, [slug]);
+
+  useEffect(() => {
+    obnovNonce();
+  }, [obnovNonce]);
 
   function update(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
+    setChybejici([]);
+    setFormError("");
     if (touched[field]) {
       const { errors: next } = validateReservation({ ...form, [field]: value, lang });
       setErrors((prev) => ({ ...prev, [field]: next[field] }));
@@ -198,8 +237,15 @@ export default function ReservationForm({ slug, onReserved }) {
       setTouched({
         firstName: true, lastName: true, email: true, phone: true, consentGdpr: true,
       });
+      setChybejici(
+        Object.entries(found)
+          .filter(([, kod]) => kod === "required")
+          .map(([pole]) => t.ev.errChybi?.[pole])
+          .filter(Boolean),
+      );
       return;
     }
+    setChybejici([]);
 
     setSending(true);
     let response;
@@ -226,20 +272,37 @@ export default function ReservationForm({ slug, onReserved }) {
     setSending(false);
 
     if (data.ok) {
+      setEmailFailed(Boolean(data.emailFailed));
       setDone(true);
       onReserved?.();
       return;
     }
 
-    // Token Turnstile je jednorázový, takže po neúspěchu je potřeba nový.
+    // Po neúspěchu se vyměňuje token Turnstile i nonce formuláře. Oboje je
+    // jednorázové a server nonce spotřebuje až při úspěšném zápisu, ale když
+    // ji nevyměníme, druhý pokus by se mohl trefit do už spotřebované.
     setTurnstileToken(null);
     setTurnstileReset((n) => n + 1);
+    obnovNonce();
 
     if (data.error === "validation" && data.fields) {
       setErrors(data.fields);
       setTouched({
         firstName: true, lastName: true, email: true, phone: true, consentGdpr: true,
       });
+      return;
+    }
+
+    if (data.error === "duplicate") {
+      const hlaska = data.field === "phone" ? t.ev.errDuplicatePhone
+                   : data.field === "email" ? t.ev.errDuplicateEmail
+                   : t.ev.errDuplicate;
+      // Ukáže se i přímo u pole, ať je vidět, které z nich to je.
+      if (data.field) {
+        setErrors((prev) => ({ ...prev, [data.field]: "duplicate" }));
+        setTouched((prev) => ({ ...prev, [data.field]: true }));
+      }
+      setFormError(hlaska);
       return;
     }
 
@@ -252,16 +315,9 @@ export default function ReservationForm({ slug, onReserved }) {
       stale_form: t.ev.errStale,
     }[data.error] ?? t.ev.errGeneral);
 
-    // Prošlá nonce se musí vyměnit, jinak by druhý pokus selhal taky.
-    if (data.error === "stale_form") {
-      fetch(`/api/events/${slug}`)
-        .then((r) => r.json())
-        .then((fresh) => setFormToken(fresh.formToken ?? null))
-        .catch(() => {});
-    }
   }
 
-  if (done) return <CheckEmail slug={slug} email={form.email} />;
+  if (done) return <CheckEmail slug={slug} email={form.email} emailFailed={emailFailed} />;
 
   return (
     <form onSubmit={submit} noValidate>
@@ -278,7 +334,7 @@ export default function ReservationForm({ slug, onReserved }) {
       />
 
       <div className="grid grid-cols-1 gap-x-3 sm:grid-cols-2">
-        <Field label={t.ev.firstName} icon={User} error={touched.firstName && errorText(t, errors.firstName)}>
+        <Field label={t.ev.firstName} icon={User} error={touched.firstName && errorText(t, errors.firstName, "firstName")}>
           <Input
             type="text" value={form.firstName} autoComplete="given-name" maxLength={60}
             placeholder={t.ev.firstNamePlaceholder} className="pl-10"
@@ -287,7 +343,7 @@ export default function ReservationForm({ slug, onReserved }) {
           />
         </Field>
 
-        <Field label={t.ev.lastName} icon={User} error={touched.lastName && errorText(t, errors.lastName)}>
+        <Field label={t.ev.lastName} icon={User} error={touched.lastName && errorText(t, errors.lastName, "lastName")}>
           <Input
             type="text" value={form.lastName} autoComplete="family-name" maxLength={60}
             placeholder={t.ev.lastNamePlaceholder} className="pl-10"
@@ -297,7 +353,7 @@ export default function ReservationForm({ slug, onReserved }) {
         </Field>
       </div>
 
-      <Field label={t.ev.email} icon={AtSign} error={touched.email && errorText(t, errors.email)}>
+      <Field label={t.ev.email} icon={AtSign} error={touched.email && errorText(t, errors.email, "email")}>
         <Input
           type="email" value={form.email} autoComplete="email" maxLength={200}
           inputMode="email" placeholder={t.ev.emailPlaceholder} className="pl-10"
@@ -306,7 +362,7 @@ export default function ReservationForm({ slug, onReserved }) {
         />
       </Field>
 
-      <Field label={t.ev.phone} icon={Phone} error={touched.phone && errorText(t, errors.phone)}>
+      <Field label={t.ev.phone} icon={Phone} error={touched.phone && errorText(t, errors.phone, "phone")}>
         <Input
           type="tel" value={form.phone} autoComplete="tel" maxLength={20}
           inputMode="tel" placeholder={t.ev.phonePlaceholder} className="pl-10"
@@ -322,10 +378,9 @@ export default function ReservationForm({ slug, onReserved }) {
           onBlur={() => blur("consentGdpr")}
         >
           {t.ev.consentGdpr}{" "}
-          <Link to="/privacypolicy" className="text-orange-400/70 underline underline-offset-2 hover:text-orange-400">
+          <Link to="/privacypolicy" className="text-orange-400 underline underline-offset-2">
             {t.ev.consentGdprLink}
-          </Link>{" "}
-          heatmapa s.r.o.
+          </Link>
         </Consent>
         {touched.consentGdpr && errors.consentGdpr && (
           <p className="mt-1.5 ml-8 text-xs text-red-400/90">{t.ev.errConsent}</p>
@@ -342,16 +397,41 @@ export default function ReservationForm({ slug, onReserved }) {
       </div>
 
       <Turnstile
-        onToken={setTurnstileToken}
+        onToken={(token) => { setTurnstileToken(token); setTurnstileChyba(false); }}
         onExpire={() => setTurnstileToken(null)}
+        onError={() => { setTurnstileToken(null); setTurnstileChyba(true); }}
         resetKey={turnstileReset}
       />
 
+      {turnstileChyba && (
+        <p className="mb-4 text-xs leading-relaxed text-red-400/90">{t.ev.errChallengeLoad}</p>
+      )}
+
+      {chybejici.length > 0 && (
+        <div className="mb-4 rounded-2xl border border-red-500/25 bg-red-500/5 p-3.5">
+          <p className="mb-1.5 text-xs font-medium text-red-300/90">{t.ev.errSouhrn}</p>
+          <ul className="flex flex-col gap-0.5">
+            {chybejici.map((polozka) => (
+              <li key={polozka} className="text-xs text-red-400/80">{polozka}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {formError && <p className="mb-4 text-xs text-red-400/90">{formError}</p>}
 
-      <Button type="submit" size="lg" className="w-full" disabled={sending}>
-        {sending && <Loader2 className="h-4 w-4 animate-spin" />}
-        {sending ? t.ev.submitting : t.ev.submit}
+      {/* Dokud ověření nevydá token, odeslání se nepovolí. Bez toho by
+          požadavek odešel bez něj, server by ho odmítl a člověk by musel
+          zkoušet znovu. Právě tohle stálo za tím, že lidem nechodily
+          e-maily. */}
+      <Button
+        type="submit" size="lg" className="w-full"
+        disabled={sending || (!turnstileToken && !turnstileChyba)}
+      >
+        {(sending || !turnstileToken) && !turnstileChyba && (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        )}
+        {sending ? t.ev.submitting : !turnstileToken && !turnstileChyba ? t.ev.verifying : t.ev.submit}
       </Button>
     </form>
   );

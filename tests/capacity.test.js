@@ -130,7 +130,8 @@ describe("kapacita akce", () => {
     const outcomes = [first[0].result, second[0].result];
 
     assert.equal(outcomes.filter((o) => o.ok).length, 1, "projít smí jen jedna");
-    assert.equal(outcomes.find((o) => !o.ok).reason, "duplicate");
+    // Důvod nese i pole, které koliduje, ať umí formulář říct co je špatně.
+    assert.match(outcomes.find((o) => !o.ok).reason, /^duplicate(_email|_phone)?$/);
 
     const [{ count }] = await sql`
       select count(*)::int as count from reservations where event_id = ${event.id}`;

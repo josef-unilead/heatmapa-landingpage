@@ -25,7 +25,8 @@
     "test:admin": "node --env-file=.env tests/e2e/admin.mjs",
     "test:scanner": "node --env-file=.env tests/e2e/scanner.mjs",
     "test:scanner:ui": "node --env-file=.env tests/e2e/scanner-ui.mjs",
-    "test:scanner:offline": "node --env-file=.env tests/e2e/scanner-offline.mjs"
+    "test:scanner:offline": "node --env-file=.env tests/e2e/scanner-offline.mjs",
+    "test:retry": "node --env-file=.env tests/e2e/retry.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

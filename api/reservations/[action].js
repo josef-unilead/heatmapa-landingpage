@@ -100,11 +100,6 @@ async function create(req, res) {
     if (form.reason === "too_fast") return json(res, 200, NEUTRAL);
     return json(res, 400, { ok: false, error: "stale_form" });
   }
-  if (!(await consumeFormToken(form.jti, event.id))) {
-    await logAttempt(event.id, ipHash, "form_replay");
-    return json(res, 200, NEUTRAL);
-  }
-
   const turnstile = await verifyTurnstile(body.turnstileToken, ip);
   if (!turnstile.ok) {
     await logAttempt(event.id, ipHash, `turnstile_${turnstile.reason}`);
@@ -115,6 +110,22 @@ async function create(req, res) {
   if (!valid) {
     await logAttempt(event.id, ipHash, "invalid");
     return json(res, 422, { ok: false, error: "validation", fields: errors });
+  }
+
+  // Nonce se spotřebuje až tady, těsně před zápisem.
+  //
+  // Dřív se spotřebovávala hned po ověření podpisu, tedy před Turnstilem
+  // i před validací. Jenže pak stačil jeden neúspěšný pokus, třeba překlep
+  // v e-mailu nebo widget, který ještě nestihl vydat token, a nonce shořela.
+  // Druhé odeslání pak narazilo na "už použitá", což se navenek tváří jako
+  // úspěch, aby se přes formulář nedal zjišťovat seznam registrovaných.
+  // Člověk tedy uviděl "Zkontroluj si e-mail" a žádný e-mail nedostal.
+  //
+  // Proti opakovanému odeslání to chrání stejně dobře: nonce shoří ve chvíli,
+  // kdy požadavek opravdu projde, takže jeho zopakování se už nechytne.
+  if (!(await consumeFormToken(form.jti, event.id))) {
+    await logAttempt(event.id, ipHash, "form_replay");
+    return json(res, 200, NEUTRAL);
   }
 
   const confirm = createConfirmToken();
@@ -144,26 +155,44 @@ async function create(req, res) {
         return json(res, 409, { ok: false, error: "closed" });
       case "ip_limit":
         return json(res, 429, { ok: false, error: "ip_limit" });
+      // Adresa nebo telefon už na akci jsou.
+      //
+      // Dřív šla ven stejná věta jako u úspěchu, aby formulář nefungoval
+      // jako vyhledávač účastníků. Mátlo to ale i lidi, kteří se omylem
+      // hlásili podruhé: viděli "Zkontroluj si e-mail" a nic nedostali.
+      // Vědomě se tím prozradí, že daný kontakt je registrovaný. Rychlost
+      // takového zkoušení drží limit pokusů na IP.
+      case "duplicate_email":
+        return json(res, 409, { ok: false, error: "duplicate", field: "email" });
+      case "duplicate_phone":
+        return json(res, 409, { ok: false, error: "duplicate", field: "phone" });
       case "duplicate":
-        // Adresa nebo telefon už na akci jsou. Ven jde stejná věta jako
-        // u úspěchu, jinak by formulář fungoval jako vyhledávač účastníků.
-        return json(res, 200, NEUTRAL);
+        return json(res, 409, { ok: false, error: "duplicate" });
       default:
         return json(res, 400, { ok: false, error: "rejected" });
     }
   }
 
-  await sendConfirmationEmail({
-    to: values.email,
-    lang: values.lang,
-    firstName: values.firstName,
-    event: result.event,
-    confirmUrl: `${siteUrl()}/rezervace/potvrdit?t=${confirm.token}`,
-  });
+  // Rezervace už v tomhle bodě existuje. Kdyby odeslání spadlo a my vrátili
+  // chybu, člověk to zkusí znovu a narazí na duplicitu vlastní rezervace,
+  // ze které se nedostane. Radši mu řekneme, že e-mail nedorazil, a necháme
+  // ho použít tlačítko Poslat znovu.
+  try {
+    await sendConfirmationEmail({
+      to: values.email,
+      lang: values.lang,
+      firstName: values.firstName,
+      event: result.event,
+      confirmUrl: `${siteUrl()}/rezervace/potvrdit?t=${confirm.token}`,
+    });
 
-  await db().from("reservations")
-    .update({ last_email_at: new Date().toISOString() })
-    .eq("id", result.reservation_id);
+    await db().from("reservations")
+      .update({ last_email_at: new Date().toISOString() })
+      .eq("id", result.reservation_id);
+  } catch (err) {
+    console.error("[create] e-mail se nepodařilo odeslat:", err.message);
+    return json(res, 200, { ...NEUTRAL, emailFailed: true });
+  }
 
   return json(res, 200, NEUTRAL);
 }
