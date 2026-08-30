@@ -47,18 +47,20 @@ function SpotsBadge({ availability, t }) {
     return <span className="text-xs text-neutral-500">{t.ev.loading}</span>;
   }
 
-  if (availability.closed) {
-    return (
-      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-neutral-400">
-        {t.ev.closed}
-      </span>
-    );
-  }
-
+  // Plno má přednost před uzavřenou registrací. Když platí obojí, je
+  // "obsazeno" konkrétnější odpověď na otázku, proč se nedá přihlásit.
   if (availability.soldOut) {
     return (
       <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-neutral-400">
         {t.ev.soldOut}
+      </span>
+    );
+  }
+
+  if (availability.closed) {
+    return (
+      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-neutral-400">
+        {t.ev.closed}
       </span>
     );
   }
@@ -142,8 +144,12 @@ export default function EventSection() {
                   celá kartička. Vnořený button uvnitř odkazu by byl neplatné
                   HTML a čtečkám obrazovky by to hlásilo dva cíle. */}
               <span className="glass-cta mt-2 w-full max-w-64 rounded-full px-5 py-3 text-sm font-semibold">
-                {availability?.soldOut ? t.ev.soldOut : t.ev.reserve}
-                {!availability?.soldOut && (
+                {availability?.soldOut
+                  ? t.ev.soldOut
+                  : availability?.closed
+                    ? t.ev.closed
+                    : t.ev.reserve}
+                {!availability?.soldOut && !availability?.closed && (
                   <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
                 )}
               </span>

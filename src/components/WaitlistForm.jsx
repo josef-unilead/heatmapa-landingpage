@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { CheckCircle, User, Mail, Hash } from "lucide-react";
+import { CheckCircle, User, Mail, Hash, Lock } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -8,6 +8,12 @@ import { useLang } from "../lib/i18n";
 import { supabase } from "../lib/supabase";
 
 const VALID_ROLES = ["creator", "business", "explorer"];
+
+// Waitlist je zavřený. Tlačítka v hero, v karuselu témat i v sekci Přidej se
+// zůstávají, aby úvodní stránka nezůstala bez hlavní akce; kdo na ně klikne,
+// uvidí místo formuláře zprávu. Otevře se zpátky přepnutím na true, nic
+// dalšího se měnit nemusí.
+const WAITLIST_OTEVREN = false;
 
 function sanitize(str, maxLength = 200) {
   return str.trim().slice(0, maxLength);
@@ -104,7 +110,15 @@ export default function WaitlistForm() {
         </h2>
         <p className="mb-8 text-base leading-7 text-neutral-400">{t.wlSub}</p>
 
-        {submitted ? (
+        {!WAITLIST_OTEVREN ? (
+          <div className="glass glass-card no-hover-card rounded-[32px] border border-white/10 bg-black/20 p-8 shadow-[0_35px_80px_rgba(0,0,0,0.32)]">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5">
+              <Lock className="h-5 w-5 text-neutral-500" />
+            </div>
+            <p className="text-base font-semibold text-white">{t.wlClosed}</p>
+            <p className="mt-2 text-sm leading-relaxed text-neutral-400">{t.wlClosedDesc}</p>
+          </div>
+        ) : submitted ? (
           <div className="glass glass-card no-hover-card rounded-[32px] border border-white/10 bg-black/20 p-8 shadow-[0_35px_80px_rgba(0,0,0,0.32)]">
             <CheckCircle className="mx-auto mb-3 h-8 w-8 text-neutral-400" />
             <p className="text-sm font-medium text-neutral-300">{t.wlSuccess}</p>
