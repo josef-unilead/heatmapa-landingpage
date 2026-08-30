@@ -5,6 +5,7 @@ const translations = {
     // Hero
     heroWaitlist: "Připojit se na waitlist",
     heroLearn: "Partnerství",
+    heroMore: "Zjistit více",
     topicCta: "Přidat se na waitlist",
     comingSoonOn: "Již brzy na",
     topics: {
@@ -283,6 +284,7 @@ const translations = {
     // Hero
     heroWaitlist: "Join the Waitlist",
     heroLearn: "Partnership",
+    heroMore: "Learn more",
     topicCta: "Join the waitlist",
     comingSoonOn: "Coming soon to",
     topics: {
