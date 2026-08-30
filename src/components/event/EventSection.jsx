@@ -142,17 +142,19 @@ export default function EventSection() {
 
               {/* Vypadá jako tlačítko, ale je to jen část odkazu, kterým je
                   celá kartička. Vnořený button uvnitř odkazu by byl neplatné
-                  HTML a čtečkám obrazovky by to hlásilo dva cíle. */}
-              <span className="glass-cta mt-2 w-full max-w-64 rounded-full px-5 py-3 text-sm font-semibold">
-                {availability?.soldOut
-                  ? t.ev.soldOut
-                  : availability?.closed
-                    ? t.ev.closed
-                    : t.ev.reserve}
-                {!availability?.soldOut && !availability?.closed && (
+                  HTML a čtečkám obrazovky by to hlásilo dva cíle.
+
+                  Když se přihlásit nedá, tlačítko není vůbec. Zvát ke kroku,
+                  který nikam nevede, nemá smysl a v jakém je akce stavu už
+                  říká odznak nahoře. Dokud se obsazenost nenačte, tlačítko
+                  taky není: kdyby se ukázalo natvrdo, u plné akce by
+                  probliklo "Rezervovat místo" a hned zmizelo. */}
+              {availability && !availability.soldOut && !availability.closed && (
+                <span className="glass-cta mt-2 w-full max-w-64 rounded-full px-5 py-3 text-sm font-semibold">
+                  {t.ev.reserve}
                   <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
-                )}
-              </span>
+                </span>
+              )}
             </div>
           </div>
         </Link>

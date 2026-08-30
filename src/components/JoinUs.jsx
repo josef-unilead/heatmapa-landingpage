@@ -1,7 +1,5 @@
 import { Store, CalendarDays, Compass } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
-import { Button } from "./ui/button";
 import { useLang } from "../lib/i18n";
 
 const roleIcons = [Store, CalendarDays, Compass];
@@ -27,7 +25,7 @@ export default function JoinUs() {
 
         {/* Mobile: horizontal scroll with snap | Desktop: 3-column grid */}
         <div className="scrollbar-hide flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0 md:snap-none">
-          {roleKeys.map(({ title, desc, role }, i) => {
+          {roleKeys.map(({ title, desc }, i) => {
             const Icon = roleIcons[i];
             return (
               <Card
@@ -43,9 +41,6 @@ export default function JoinUs() {
                 <p className="flex-1 text-sm leading-relaxed text-neutral-400">
                   {t[desc]}
                 </p>
-                <Button variant="primary" size="md" asChild className="w-full max-w-65">
-                  <Link to={`/waitlist?role=${role}`}>{t.joinCta}</Link>
-                </Button>
               </Card>
             );
           })}

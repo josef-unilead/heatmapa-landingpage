@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useLang } from "../../lib/i18n";
 
 // Carousel témat. Každé téma je samostatná celá kartička — při změně tématu
 // jedna celá kartička přijede z jedné strany a druhá celá odjede na druhou.
@@ -44,23 +42,17 @@ function Overlays() {
   );
 }
 
-function Texts({ s, topic, ctaLabel, active }) {
-  const ctaClass = `flex w-full items-center justify-center rounded-full border border-white/15 bg-white/10 font-semibold text-white no-underline backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/15 ${s.cta}`;
+function Texts({ s, topic }) {
   return (
     <div className="px-1">
       <p className={`font-semibold leading-tight text-white ${s.title}`}>{topic.title}</p>
       <p className={`text-neutral-400 ${s.subtitle}`}>{topic.subtitle}</p>
-      {active ? (
-        <Link to="/waitlist" className={ctaClass}>{ctaLabel}</Link>
-      ) : (
-        <span className={ctaClass}>{ctaLabel}</span>
-      )}
     </div>
   );
 }
 
 // Odjíždějící (předchozí) celá kartička — jen poster, bez videa a interakcí.
-function TopicCardStatic({ topic, s, ctaLabel }) {
+function TopicCardStatic({ topic, s }) {
   const media = topic.videos[0];
   return (
     <div className={`pointer-events-none ${s.card}`}>
@@ -68,13 +60,12 @@ function TopicCardStatic({ topic, s, ctaLabel }) {
         <img src={`${media.src}.jpg`} alt="" className="h-full w-full object-cover" style={media.style} />
         <Overlays />
       </div>
-      <Texts s={s} topic={topic} ctaLabel={ctaLabel} active={false} />
+      <Texts s={s} topic={topic} />
     </div>
   );
 }
 
 export default function TopicCarousel({ topics, variant = "card", onActiveChange }) {
-  const { t } = useLang();
   const s = STYLES[variant];
   const [topicIndex, setTopicIndex] = useState(0);
   const [videoIndex, setVideoIndex] = useState(0);
@@ -156,7 +147,7 @@ export default function TopicCarousel({ topics, variant = "card", onActiveChange
           className={`absolute inset-0 ${s.pad} ${outClass}`}
           onAnimationEnd={() => setPrev(null)}
         >
-          <TopicCardStatic topic={topics[prev.index]} s={s} ctaLabel={t.topicCta} />
+          <TopicCardStatic topic={topics[prev.index]} s={s} />
         </div>
       )}
 
@@ -199,7 +190,7 @@ export default function TopicCarousel({ topics, variant = "card", onActiveChange
               <ChevronRight className={s.arrowIcon} />
             </button>
           </div>
-          <Texts s={s} topic={topic} ctaLabel={t.topicCta} active />
+          <Texts s={s} topic={topic} />
         </div>
       </div>
     </div>

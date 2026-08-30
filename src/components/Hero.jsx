@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useLang } from "../lib/i18n";
 import PhoneMockup from "./hero/PhoneMockup";
@@ -76,9 +75,6 @@ function HeroContent() {
         />
       </div>
       <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center sm:justify-center sm:gap-4 lg:justify-start">
-        <Button variant="primary" size="lg" asChild>
-          <Link to="/waitlist">{t.heroWaitlist}</Link>
-        </Button>
         <Button variant="outline" size="lg" asChild>
           <a href="#careers">{t.heroLearn}</a>
         </Button>
