@@ -7,7 +7,7 @@ const translations = {
     heroLearn: "Partnerství",
     heroMore: "Zjistit více",
     topicCta: "Přidat se na waitlist",
-    comingSoonOn: "Již brzy na",
+    availableOn: "Dostupné na",
     topics: {
       concerts: { title: "Koncerty", subtitle: "Hudební festivaly a živá vystoupení" },
       culture: { title: "Kulturní události", subtitle: "Výstavy, přehlídky a umění" },
@@ -286,7 +286,7 @@ const translations = {
     heroLearn: "Partnership",
     heroMore: "Learn more",
     topicCta: "Join the waitlist",
-    comingSoonOn: "Coming soon to",
+    availableOn: "Available on",
     topics: {
       concerts: { title: "Concerts", subtitle: "Music festivals and live performances" },
       culture: { title: "Cultural Events", subtitle: "Exhibitions, showcases and art" },
