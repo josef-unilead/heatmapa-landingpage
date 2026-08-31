@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from "react";
-import { Button } from "./ui/button";
 import { useLang } from "../lib/i18n";
 import PhoneMockup from "./hero/PhoneMockup";
 import TopicCarousel from "./hero/TopicCarousel";
@@ -74,17 +73,9 @@ function HeroContent() {
           className="mb-3 block h-auto w-65.75 opacity-80 sm:mb-6 sm:w-82.25 md:w-98.5 lg:w-131.5"
         />
       </div>
-      <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center sm:justify-center sm:gap-4 lg:justify-start">
-        <Button variant="primary" size="lg" asChild>
-          <a href="#join">{t.heroMore}</a>
-        </Button>
-        <Button variant="outline" size="lg" asChild>
-          <a href="#careers">{t.heroLearn}</a>
-        </Button>
-      </div>
-
-      {/* Odkazy do obchodů. Aplikace je venku, dřív to byly jen odznaky. */}
-      <div className="mt-8 flex flex-col items-center gap-3 lg:items-start">
+      {/* Odkazy do obchodů. Aplikace je venku, dřív to byly jen odznaky.
+          Hlavní akce hero, teď že si ji jde rovnou stáhnout. */}
+      <div className="flex flex-col items-center gap-3 lg:items-start">
         {/* Store badges */}
         <div className="flex items-center gap-3">
           {/* App Store */}
