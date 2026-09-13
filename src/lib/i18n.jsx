@@ -108,7 +108,7 @@ const translations = {
     // Support Form
     supTitle1: "Zákaznická",
     supHighlight: "podpora",
-    supSub: "Napište nám, s čím potřebujete pomoct. Odpovíme vám na zadaný e-mail.",
+    supSub: "Napište nám, s čím potřebujete pomoct. Přes tento formulář můžete požádat i o smazání účtu, v tom případě zadejte e-mail, pod kterým jste registrovaní. Odpovíme vám na zadaný e-mail.",
     supName: "Jméno",
     supEmail: "E-mail",
     supSubject: "Předmět",
@@ -385,7 +385,7 @@ const translations = {
     // Support Form
     supTitle1: "Customer",
     supHighlight: "support",
-    supSub: "Tell us what you need help with and we will reply to the email you provide.",
+    supSub: "Tell us what you need help with. You can also use this form to request account deletion; in that case, enter the email your account is registered with. We will reply to the email you provide.",
     supName: "Name",
     supEmail: "Email",
     supSubject: "Subject",
